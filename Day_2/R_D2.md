@@ -7,23 +7,14 @@
 [![Interesting Optimizations](https://img.shields.io/badge/TOPIC-Interesting%20Optimizations-olive)](#interesting-optimizations)   
 [RTL Design] → [Elaboration] → [dfflibmap 🧬] → [Synthesis 🛠️] → [Netlist Generation]
 _____________________________________________________
-### Topics Explored:
-1. Sky130 PDK - Understanding the .lib timing library (sky130_fd_sc_hd__tt_025C_1v80.lib)
-2. Comparing hierarchical vs. flat synthesis methods.
-3. Exploring efficient coding styles for flip-flops in RTL design.
 
-### Table of Contents   
-  **1️⃣ Sky130 PDK - Introduction to Timing .lib**              
-         - Library Naming Convention  
-         - Liberty File (.lib)   
-  **2️⃣ Hierarchical and Flat Synthesis**                     
-         - Hierarchical Synthesis  
-         - Flat Synthesis
-         - Submodule Level Synthesis   
-  **3️⃣ Flop Coding Styles and Optimization**                       
-         - Different Flop Coding Styles 
-         - Interesting Optimizations 
+### Topics Explored   
 
+  2.1	 Sky130 PDK - Introduction to Timing (.lib) library           
+  2.2    Hierarchical and Flat Synthesis    
+  2.3    Flop Coding Styles and Optimization                       
+  2.4    Different Flip Flop coding styles                       
+        
 ### 2.1 SKY130 PDK - Introduction to Timing (.lib) 
 
 The SKY130 Process Design Kit (PDK) is an open‑source resource built on SkyWater Technology’s 130 nm CMOS platform. It offers the fundamental models and libraries required for integrated circuit (IC) development, encompassing timing, power, and process variation data essential for accurate design and verification.
@@ -77,7 +68,7 @@ They are used to describe the **characteristics of standard cells** in a given t
 > These files are essential for synthesis, timing analysis, and power estimation in digital design flows.  
 > ...They are widely supported across EDA tools and form the backbone of cell-level timing models
 
-Below image shows some details of sky130_fd_sc_hd__tt_025C_1v80.lib :
+some details of sky130_fd_sc_hd__tt_025C_1v80.lib :
 
 <img width="300" height="350" alt="Lib_details" src="https://github.com/user-attachments/assets/60b1e088-ea0f-4d2c-9d5f-943e050ed7f2" />
 
@@ -128,7 +119,7 @@ Based on the RTL code, we expect the synthesized netlist to consist of:
     - OR gates      
 > These gates are expected to be inferred from the standard cell library.
 <img width="500" height="300" alt="mutiple_modules_synth" src="https://github.com/user-attachments/assets/25083310-61ef-4956-b8a7-4468e747b55f" />
-________________________________
+
 
 **Hierarchial Synthesis - Synthesis Result**   
 However, the synthesis result reveals that the **hierarchy has been preserved**.     
@@ -137,7 +128,6 @@ Instead of flattening the design into gates, the synthesis tool retains the **su
 > NOTE: Sub-modules `u1` and `u2` are used in place of individual gates in the synthesized design hierarchy.
 <img width="500" height="300" alt="multiple_hier_net" src="https://github.com/user-attachments/assets/1399712e-746c-4c3a-95f9-f5a1605c248c" />
 
----
 
 **Hierarchial Synthesis - Netlist from ABC Synthesis Tool**       
      - The netlist confirms that hierarchy is preserved.       
@@ -156,7 +146,8 @@ Instead of flattening the design into gates, the synthesis tool retains the **su
   
 ![Hierarchy Preserved](https://img.shields.io/badge/Synthesis-Hierarchy%20Preserved-blue)
 ![Submodules Inferred](https://img.shields.io/badge/Netlist-Submodules%20u1%20%26%20u2%20Inferred-green)
----
+_______________________________________
+
 
 ### 2.2.2. Flattening the Design in Yosys
 In Yosys, the **flatten** command is used to eliminate hierarchy by replacing module instances with their actual implementation.
@@ -198,7 +189,7 @@ netlist when desing is flattened:
 
 <img width="500" height="400" alt="Hier_vs_Flat" src="https://github.com/user-attachments/assets/ca19d930-6aa2-4402-ba5c-d8c7a24b2a6d" />
 
-
+_______________________________________
 
 ### 2.2.3 Submodule Level Synthesis   
 With multiple sub modules in  top level module, sub module level synthesis can be done.  
@@ -223,6 +214,7 @@ Below images show the sub module synthesis and synthesized netlist of sub_module
 <img width="300" height="250" alt="sub_all" src="https://github.com/user-attachments/assets/723915ae-7bd7-49d9-8018-179ad820e439" />
 <img width="300" height="150" alt="sub_net" src="https://github.com/user-attachments/assets/7ac8c534-aef3-4245-b20d-653bbe05bfc2" />
 
+_______________________________
 
 ### 2.3 Flop Coding Styles and Optimization
 Before diving into flip-flop coding styles, it's important to understand why flip-flops are essential in digital design.
@@ -274,8 +266,9 @@ To avoid such issues, control pins are introduced to manage the initial values o
 
 > Proper use of RESET and SET ensures stable initialization and prevents logic corruption during simulation or synthesis.
 
-	
-### 2.4 Different Flop coding styles
+________________________________________
+
+
 #### Flip Flop Mapping During RTL Synthesis
 When synthesizing RTL code, it's crucial to correctly map flip-flops using the **dfflibmap** command. This ensures that the synthesis tool knows where to source the flop cells from to map the sequential elements of the code.
 
@@ -301,6 +294,22 @@ Tip: Always verify Liberty file contains both standard cells and sequential elem
 
 #### Asynchronous reset D-Flip flop
     - reset does not waits for the clock edge
+
+```verilog
+module dff_asyncres (
+    input clk,
+    input async_reset,
+    input d,
+    output reg q
+);
+
+  always @ (posedge clk, posedge async_reset)
+    if (async_reset)
+      q <= 1'b0;
+    else
+      q <= d;
+endmodule
+```
 <img width="400" height="300" alt="dff_asynch_res" src="https://github.com/user-attachments/assets/3e3bb173-f68a-406d-b762-6e7bb0319382" />
 
 #### Asynchronous set D-Flip flop
@@ -322,19 +331,4 @@ Tip: Always verify Liberty file contains both standard cells and sequential elem
  ---
  ---
  
-### D Flip-Flop with Asynchronous Reset
-
-```verilog
-module dff_asyncres (
-    input clk,
-    input async_reset,
-    input d,
-    output reg q
-);
-  always @ (posedge clk, posedge async_reset)
-    if (async_reset)
-      q <= 1'b0;
-    else
-      q <= d;
-endmodule
 
