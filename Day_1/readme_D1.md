@@ -71,6 +71,8 @@ The first day of the workshop covers the brief description of iverilog simulator
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20131029%20Th%20D1_1.png)
 
+<img width="600" height="400" alt="Test1" src="https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20131029%20Th%20D1_1.png"/>
+
 
 * **Outputs:** Outputs from the design are to be observed using another tool - gtkwave
 _____________________________________   
