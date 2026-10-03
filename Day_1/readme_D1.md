@@ -130,30 +130,51 @@ The first day of the workshop covers the brief description of iverilog simulator
 ```
 
 ### 1.3 Synthesis FLow - yosys
-**Synthesis :** Synthesis is the process during which RTL design actually gets converted into a circuit. There are special programing languages called Hardware Description Languages (HDLs) which are used to describe the hardware of a circuit and then the computer makes the circuit based on the program written. After synthesis we obtain a “Gate Level Netlist”. This netlist is how our circuit will look. The tool used here to do synthesis is Yosys.
+
+* **Synthesis:** Process during which RTL design actually gets converted into a hardware design circuit.... 
+The tool is Yosys.
 In simple terms:
-* It does RTL to gate level translation
-* The design is converted into gates and connections are made between them.
-* This gives out a file called netlist.
-* Technology Mapping ...................
+	-	It translates RTL design into generic logic gates (AND, OR, Flip Flops...) expressed in terms of boolean equations.
+	-	And connections are made between them.
+	-	This complete information is given out as a file called netlist.
+	-	This netlist is how the circuit will look.
+	-	The netlist is still abstract and doesn’t yet know about the physical cells available in a real chip.
+  
+* **Technology Mapping:** Ensures the design is implementable on silicon (synthesizable) and not just simulated....
+The tool is abc
+	-	Technology Mapping maps the generic gates in the netlist onto standard cells defined in the PDKs used - (SkyWater-Sky130 PDK).
+
+<br>
+<p></p>
+🔹	ABC (A System for Sequential Logic Synthesis and Formal Verification) is an external tool developed at UC Berkeley. 
+	
+	-	It specializes in logic optimization, technology mapping, and verification.
+
+🔹 In Yosys, ABC tool is called using the abc command, 
+	
+	-	This internally hands the netlist over to the ABC tool. 
+	-	Yosys then uses ABC’s algorithms to perform logic optimization and technology mapping 
+	-	Technology mapping is done against a given standard cell library (like Sky130).
+<p></p>
+<br>
+
+
+  
 ```
 
 ```
 
----
 ---
 
 ## 2. LAB_WORK_FLOW 
 
-### 2.1 Setting Up the environment
+### 2.1 Setting Up the environment - Open-Source EDA Toolchain Setup on Ubuntu
 The first step is setting up the development environment and installing the essential open-source tools
 all running on Ubuntu inside a VirtualBox VM.
 The goal is to create a reliable and efficient workspace for synthesis, simulation, and design tasks.
 
-#### - INSTALLATION ENVIRONMENT - Open-Source EDA Toolchain Setup on Ubuntu
-
 ##### **** VIRTUAL MACHINE CONFIGURATION SET-UP 
-        Oracle virtual machine link https://www.virtualbox.org/wiki/Downloads
+        Oracle virtual machine link      https://www.virtualbox.org/wiki/Downloads
 
 | Specification | Details|
 |---------------|----------------|
@@ -162,11 +183,11 @@ The goal is to create a reliable and efficient workspace for synthesis, simulati
 | **Storage**| 50 GB HDD |
 | **vCPU**| 4|
 
-- latest version of ubuntu (18 or above) that is available 
+- latest version of ubuntu (18 or above) that is available
+ 
 **The harddisk image provided by VSD is to be attached with the VM** - 
-    
-________________________________________
-_______________________________________
+
+<br>
 
 #### **** CREATE THE WORKING SPACE - git-clone VSD repository
 - Created a directory on Desktop
@@ -176,10 +197,10 @@ _______________________________________
 - https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
 - 
 -  This comes with a pre-configured VM environment
--  and installed DIRECTORY STRUCTURE with
-      -  open-source tool **yosys**
-      -  many design files
--   iverilog and gtkwave need to be installed 
+-  and installed DIRECTORY STRUCTURE
+<br>
+
+<br>
 
 #### **** System Check for TOOL INSTALLATION and Verification
 
@@ -189,9 +210,12 @@ _______________________________________
 | **iverilog**| Verilog Simulation and Compilation | icarus-verilog/ |To-be-Installed|
 | **GTKwave**| Waveform Viewer & Analysis | gtkwave/ |To-be-Installed|
 
+<br>
+
 #### **** Open-Source TOOL INSTALLATION - iverilog and gtkwave
 
 
+---
 ### 2.2 Directory Structure 
 
 
