@@ -217,6 +217,14 @@ install :→ The specific action telling apt to fetch and install the package.
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-29-42%20DirStr.png)
 
+```
+DIRECTORY Structure
+  verilog_files/       - Design modules and testbenches.	
+  lib/                 - Sky130_fd_sc_hd__tt_025C_1v80.lib....liberty file used for synthesis and technology mapping.
+  myLib/verilog_model/ - primitives.v, sky130_fd_sc_hd.....holds Verilog models of standard cells.
+```
+
+
 ---
 
 ### 2.3 LAB 1 --- GOOD MUX 2x1
@@ -323,6 +331,8 @@ yosys> synth -top good_mux
 
 **-top <module> :** This option use the specified module as top module (default='top'). - "good_mux"
 
+**module_name:** Only the module name is to be given
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-38-18%20yosys%20synth.png)
 	
 #### 5. Technology Mapping to standard library 
@@ -344,7 +354,7 @@ abc → Calls the ABC tool from inside Yosys. ABC specializes in logic optimizat
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-40-15%20yosys%20abc.png)
 
 
-#### 6. To view the result as a graphviz use the below command
+#### 6. View the result as a graphviz 
 ```
 yosys> show
 ``` 
