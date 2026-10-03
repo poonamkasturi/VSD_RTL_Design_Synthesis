@@ -23,7 +23,7 @@ This repository documents the labs and learning materials from the [sky130RTLDes
 ![Netlist](https://img.shields.io/badge/STAGE-Netlist_&_Visualization-purple)     
 ![show](https://img.shields.io/badge/yosys-show-purple)
 ![write_verilog](https://img.shields.io/badge/yosys-write__verilog%20--noattr%20good__mux__netlist.v-green)
-![gvim](https://img.shields.io/badge/yosys-!gvim%20good__mux__netlist.v-red)
+![gedit](https://img.shields.io/badge/yosys-gedit%20good__mux__netlist.v-red)
 
 ---
 
@@ -169,8 +169,6 @@ ____________________________________
 -  gitclonning will create a copy of the repository in the user specified working directory with complete DIRECTORY STRUCTURE
 -  change to the main repository directory ---- skyRTLDesignAndSynthesisWorkshop
 
-> commands to be followed
-
 ```
 $ cd Desktop      .............. current directory will become Desktop
 $ mkdir VLSI_PK   .............. NOTE: This is a user specified directory - newly created
@@ -181,7 +179,6 @@ $ cd sky130RTLDesignAndSynthesisWorkshop ........... pwd path will now be ~/Desk
 ```
 ###### NOTE: 
 	before doing a gitclone check if git is installed	
-	
 	$ git --version
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_17-59-58.png)
