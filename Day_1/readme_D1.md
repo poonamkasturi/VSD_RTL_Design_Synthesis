@@ -96,10 +96,10 @@ _____________________________________
   		- Gives stimulus to the input ports of the RTL design.
   		- Instantiated RTL module is executed as per the stimuli.
          	
-* **Outputs of the simulator** :  
- The iverilog simulator outputs a value chage dump (.vcd) file as output.
-
- **This vcd file can be viewed using the GTKWave viewer tool.**  
+* **Outputs of the simulator** :
+  
+The iverilog simulator outputs a value chage dump (.vcd) file as output.
+This vcd file can be viewed using the GTKWave viewer tool.
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20130931%20Th%20D1_2.png)
 ___________________________________________
@@ -128,11 +128,22 @@ The tool is abc
 	-	This internally hands the netlist over to the ABC tool. 
 	-	Yosys then uses ABC’s algorithms to perform logic optimization and technology mapping 
 	-	Technology mapping is done against a given standard cell library (like Sky130).
+
+* **Why Do Libraries Have Different Gate "Flavors"?**
+
+  .lib file contains many versions of each gate (like AND, OR, NOT) with different properties:
+```
+	Performance: Faster gates for critical paths, slower for power savings
+	Power: Some gates use less energy
+	Area: Smaller gates for compact chips
+	Drive Strength: Stronger gates to drive more load
+	Signal Integrity: Specialized gates for noise/performance
+```
 ---
 
 ## 2. LAB_WORK_FLOW 
 
-### 2.1 Setting Up the environment - Open-Source EDA Toolchain Setup on Ubuntu
+### 2.1 Setting Up the environment : Open-Source EDA Toolchain Setup on Ubuntu
 The first step is setting up the development environment and installing the essential open-source tools
 all running on Ubuntu inside a VirtualBox VM.
 The goal is to create a reliable and efficient workspace for synthesis, simulation, and design tasks.
@@ -148,15 +159,14 @@ The goal is to create a reliable and efficient workspace for synthesis, simulati
 | **vCPU**| 4|
 
 - latest version of ubuntu (18 or above) that is available to be used
- 
-**The harddisk image provided by VSD is to be attached with the VM**
+- The harddisk image provided by VSD is to be attached with the VM
 ____________________________________
 
 #### **** CREATE THE WORKING SPACE - git-clone VSD repository
-- Create a directory on Desktop - this will be the user specified working directory
+- Create a directory on Desktop - .......... user specified working directory
 - in this user specified working directory gitclone the repository 
 		https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
--  gitclonning will create a copy of the repository in the user specified working directory with the complete DIRECTORY STRUCTURE
+-  gitclonning will create a copy of the repository in the user specified working directory with complete DIRECTORY STRUCTURE
 -  change to the main repository directory ---- skyRTLDesignAndSynthesisWorkshop
 
 > commands to be followed
@@ -171,7 +181,7 @@ $ cd sky130RTLDesignAndSynthesisWorkshop ........... pwd path will now be ~/Desk
 ```
 ###### NOTE: 
 	before doing a gitclone check if git is installed	
-	command to do that
+	
 	$ git --version
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_17-59-58.png)
@@ -188,7 +198,6 @@ _____________________________________
 _________________________________________________
 
 #### **** Open-Source TOOL INSTALLATION - iverilog and gtkwave
-> commands to be followed
 
 ```
 $ sudo apt install iverilog      .............. open-source tool iverilog will be installed
@@ -196,10 +205,10 @@ $ sudo apt install gtkwave       .............. open-source tool gtkwave will be
 ```
 The command **"sudo apt install `<package-name>`"** is used on Ubuntu (and other Debian‑based Linux systems) to install software packages from the system’s package repositories.
 ```
-sudo → Runs the command with superuser (administrator) privileges. Installing software modifies system directories, so elevated rights are required.
-apt → The modern package manager interface for Debian/Ubuntu. It handles installing, updating, and removing software.
-install → The specific action telling apt to fetch and install the package.
-<package-name> → The name of the software to be install (e.g., iverilog, gtkwave, vim, gcc).
+sudo :→ Runs the command with superuser (administrator) privileges. Installing software modifies system directories, so elevated rights are required.
+apt :→ The modern package manager interface for Debian/Ubuntu. It handles installing, updating, and removing software.
+install :→ The specific action telling apt to fetch and install the package.
+<package-name> :→ The name of the software to be install (e.g., iverilog, gtkwave, vim, gcc).
 ```
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-03-22.png)
@@ -209,9 +218,8 @@ install → The specific action telling apt to fetch and install the package.
 
 ### 2.2 Directory Structure 
 
-## DIRECTORY STRUCTURE PATH IMAGES NEEDED
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-29-42%20DirStr.png)
 
----
 ---
 
 ### 2.3 LAB 1 --- GOOD MUX 2x1
@@ -236,11 +244,14 @@ $ cd verilog_files  ........ pwd path becomes ~/Desktop/VLSI_PK/sky130RTLDesignA
 $ iverilog good_mux.v tb_good_mux.v ........ execute the iverilog command with two inputs RTL design and Test Bench 
 ```
 _____________________________
-	- good_mux.v → Design file, contains RTL description of mux .
-	- tb_good_mux.v → Testbench file 
+	-   good_mux.v :→ Design file, contains RTL description of mux .
+	-   tb_good_mux.v :→ Testbench file 
 ________________________
 	output file a.out generated in pwd....
 	pwd path is ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-53-24%20good_mux.png)
+	
 
 #### 2. Executing file a.out will generate the value change dump (.vcd) file.
 
@@ -255,7 +266,11 @@ $ ./a.out
 ```
 $ gtkwave tb_good_mux.vcd
 ```
-##### To view the signal on the wave window click and drag them to the signal column..
+##### To display the signals on the wave window 
+	1). Select the design module in the gtkwave window
+	2). This will display the list of signals in the module.
+	3). Select and drag each of them to the signal column.
+	
 	We can see from the waveforms that output y follows the input as per the selection line, sel
 	y = i0 if Sel = 0 and y = i1 if sel = 1
 
@@ -291,7 +306,7 @@ yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 	~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/lib/   ..path to the liberty file 
 __________________________________
 
-	1) pwd is ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+	1) ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files is the pwd
 	2) ../ moves the directory one step up 
 	3) Thus takes the path to ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop 
 	       
@@ -311,6 +326,7 @@ yosys> synth -top good_mux
 
 **-top <module> :** This option use the specified module as top module (default='top'). - "good_mux"
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-38-18%20yosys%20synth.png)
 	
 #### 5. Technology Mapping to standard library 
 ```
@@ -319,31 +335,33 @@ yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 	The abc pass invokes ABC tool to perform technology mapping, converting Yosys’s internal gate representation (netlist)
 	into cells from the target architecture (standard cell sky130_fd_sc_hd__tt_025C_1v80.lib). 
 
-
-**abc** → Calls the ABC tool from inside Yosys. ABC specializes in logic optimization and mapping.
-
-**-liberty** → Specifies the standard cell library (in Liberty .lib format) to be used for mapping.
-
-**../lib/sky130_fd_sc_hd__tt_025C_1v80.lib** → Path to the Sky130 standard cell library file.
 ```
+abc → Calls the ABC tool from inside Yosys. ABC specializes in logic optimization and mapping.
+-liberty → Specifies the standard cell library (in Liberty .lib format) to be used for mapping.
+../lib/sky130_fd_sc_hd__tt_025C_1v80.lib → Path to the Sky130 standard cell library file.
 		sky130_fd_sc_hd → High‑density standard cell library.
 		tt_025C_1v80 → “Typical‑typical” corner, at 25 °C and 1.8 V supply. 
 		....This defines timing and power characteristics under typical operating conditions....
 ```
 **NOTE:** The path of the sky130_fd_sc_hd__tt_025C_1v80.lib   should match with the path where the file is saved in the system
-	
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-40-15%20yosys%20abc.png)
+
+
 #### 6. To view the result as a graphviz use the below command
 ```
 yosys> show
 ``` 
 **Show :** It creates graphviz DOT file for the selected part of the design and compile it to a graphics file (usually SVG or PostScript).
-
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-42-47%20yosys%20show.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-52-21.png)
 
 #### 7. To write the netlist in a .v file
 yosys> write_verilog -noattr <filename.v>
 
 ##  TO CHECK IF IT IS TO BE DONE
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-48-01%20yosys%20write%20exit.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-48-44%20good_mux_netlist1.png)
+
 
 ### SUMMARY of Commands
 
