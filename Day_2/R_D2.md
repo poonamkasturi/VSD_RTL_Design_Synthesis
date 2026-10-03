@@ -10,11 +10,24 @@ _____________________________________________________
 
 ### Topics Explored   
 
-  2.1	 Sky130 PDK - Introduction to Timing (.lib) library           
-  2.2    Hierarchical and Flat Synthesis    
-  2.3    Flop Coding Styles and Optimization                       
-  2.4    Different Flip Flop coding styles                       
-        
+2.1	 Sky130 PDK - Introduction to Timing (.lib) library 
+```
+- Library Naming Convention  
+- Liberty File (.lib)
+```     
+2.2  Hierarchical and Flat Synthesis
+```
+- Hierarchical Synthesis  
+- Flat Synthesis
+- Submodule Level Synthesis
+ ```    
+2.3  Flip Flop Coding   
+```
+- Asynchronous Reset
+- Synchronous Reset
+```
+
+ 
 ### 2.1 SKY130 PDK - Introduction to Timing (.lib) 
 
 The SKY130 Process Design Kit (PDK) is an open‑source resource built on SkyWater Technology’s 130 nm CMOS platform. It offers the fundamental models and libraries required for integrated circuit (IC) development, encompassing timing, power, and process variation data essential for accurate design and verification.
@@ -109,9 +122,9 @@ ____________________
 **Hierarchial Synthesis - RTL Design Overview**
 - RTL design with **two sub-modules**, both instantiated inside the **top module** 
 
-> *(image showing RTL hierarchy with sub-modules u1 and u2)*
-<img width="210" height="180" alt="mutiple_modules" src="https://github.com/user-attachments/assets/280ac112-9f8b-4d71-a058-6819688e14ee" />
+###### Example: Multiple Modules in Verilog
 
+```verilog
 
 module sub_module2 (input a, input b, output y);
 	assign y = a | b;
@@ -121,20 +134,24 @@ module sub_module1 (input a, input b, output y);
 	assign y = a&b;
 endmodule
 
-
 module multiple_modules (input a, input b, input c , output y);
-	wire net1;
-	sub_module1 u1(.a(a),.b(b),.y(net1));  //net1 = a&b
-	sub_module2 u2(.a(net1),.b(c),.y(y));  //y = net1|c ,ie y = a&b + c;
+    wire net1;
+
+    sub_module1 u1(.a(a), .b(b), .y(net1));  // net1 = a & b
+    sub_module2 u2(.a(net1), .b(c), .y(y));  // y = net1 | c → y = (a & b) + c
 endmodule
 
-
+```
 **Hierarchial Synthesis - Expected Netlist Behavior**   
 Based on the RTL code, we expect the synthesized netlist to consist of:   
     - AND gates      
     - OR gates      
 > These gates are expected to be inferred from the standard cell library.
 <img width="500" height="300" alt="mutiple_modules_synth" src="https://github.com/user-attachments/assets/25083310-61ef-4956-b8a7-4468e747b55f" />
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_03-56-19%20MM_H_terminal1.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_03-56-58%20MM_H_terminal2.png)
+
 
 
 **Hierarchial Synthesis - Synthesis Result**   
@@ -144,6 +161,8 @@ Instead of flattening the design into gates, the synthesis tool retains the **su
 > NOTE: Sub-modules `u1` and `u2` are used in place of individual gates in the synthesized design hierarchy.
 <img width="500" height="300" alt="multiple_hier_net" src="https://github.com/user-attachments/assets/1399712e-746c-4c3a-95f9-f5a1605c248c" />
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_03-49-23%20mult_mod%20synth%20hier.png)
+
 
 **Hierarchial Synthesis - Netlist from ABC Synthesis Tool**       
      - The netlist confirms that hierarchy is preserved.       
@@ -151,6 +170,9 @@ Instead of flattening the design into gates, the synthesis tool retains the **su
      - This matches the structure expected from the RTL code.       
 
 >  This behavior is typical when synthesis is performed in **hierarchical mode**, allowing better modularity and reuse.
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-04-56%20MM_H_netlist1.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-04-56%20MM_H_netlist2.png)
 
 ---
 
@@ -177,13 +199,6 @@ This is especially useful for inspecting gate-level netlists and verifying that 
  **Synthesis and Flattening Workflow**   
 After synthesizing the design and generating the netlist, the design is flattened to verify if all hierarchies are removed and gates are instantiated directly instead of submodules.
 
-```
-yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib    : READ LIBERTY FILE
-yosys> read_verilog multiple_modules.v                               : READ FILE with multiple sub-modules
-yosys> synth -top multiple_modules                                   : RUN SYNTHESIS WITH THE TOP MODULE 
-yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib         : MAP TO STANDARD CELLS
-yosys> write_verilog -noattr multiple_modules_hier.v			     : WRITE HIERARCHICAL NETLIST
-```
 _______________________________________
 **TO FLATTEN THE DESIGN**
 _____________________
@@ -192,7 +207,7 @@ yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib    : READ LIBE
 yosys> read_verilog multiple_modules.v                               : READ FILE with multiple sub-modules
 yosys> synth -top multiple_modules                                   : RUN SYNTHESIS WITH THE TOP MODULE 
 yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib         : MAP TO STANDARD CELLS
-yosys> Flatten							                             : FLATTEN THE DESIGN TO ...
+yosys> flatten							                             : FLATTEN THE DESIGN TO ...
 yosys> write_verilog -noattr multiple_modules_Flat.v			     : WRITE FLATTENED NETLIST
 ```
 	
@@ -200,6 +215,8 @@ netlist when desing is flattened:
 
 <img width="400" height="150" alt="Flatten_net" src="https://github.com/user-attachments/assets/7308c143-da1b-4433-82ad-4ca2834738fd" />
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-13-10%20MM_flatten.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-15-03%20MM_flat_netlist.png)
 
 **Difference between the Hierarchical and flattened synthesized netlists:**
 
