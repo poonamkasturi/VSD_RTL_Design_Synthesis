@@ -42,9 +42,9 @@ It Specifies the **process**, **voltage**, and **temperature** conditions modele
 | **sky130**    | Refers to the SkyWater 130 nm CMOS process |
 | **fd_sc**     | Foundry Standard Cell library |
 | **hd**        | High Density variant (optimized for area efficiency) |
-| **tt**        | Process Fabrication corner (e.g., `tt` = typical, `ff` = fast, `ss` = slow) |
-| **025C** | Temperature - Operating condition (e.g., `025C` = 25 °C, `085C` = 85 °C) |
-| **1v80**   | Voltage Supply level modeled (e.g., `1v80` = 1.80 V, `1v62` = 1.62 V) |
+| **tt**        | **Process** Fabrication corner (e.g., `tt` = typical, `ff` = fast, `ss` = slow) |
+| **025C** | **Temperature** - Operating condition (e.g., `025C` = 25 °C, `085C` = 85 °C) |
+| **1v80**   | **Voltage** Supply level modeled (e.g., `1v80` = 1.80 V, `1v62` = 1.62 V) |
 
 <span style="color:#d73a49"><code>sky130_fd_sc_hd__tt_025C_1v80.lib</code></span>
 
@@ -60,8 +60,6 @@ ________________________________________________________________________________
 
 Liberty files are defined by IEEE standard
 They are used to describe the **characteristics of standard cells** in a given technology node.     
-They are industry standard format used to describe library cells of a particular technology.     
-They are a collection of logic module/Standard cells and includes different types of gates and different flavours of these gates.
 
 #### File Attributes
 
@@ -81,12 +79,12 @@ They are a collection of logic module/Standard cells and includes different type
 
 Below image shows some details of sky130_fd_sc_hd__tt_025C_1v80.lib :
 
-<img width="400" height="550" alt="Lib_details" src="https://github.com/user-attachments/assets/60b1e088-ea0f-4d2c-9d5f-943e050ed7f2" />
+<img width="300" height="350" alt="Lib_details" src="https://github.com/user-attachments/assets/60b1e088-ea0f-4d2c-9d5f-943e050ed7f2" />
 
 	
 "sky130_fd_sc_hd__a21110_1" :  cell definitions inside the .lib file as shown in the image below.
 
-<img width="600" height="350" alt="cell_a2111o" src="https://github.com/user-attachments/assets/f4333e8c-2b55-4a91-b1fb-091ec4262f37" />
+<img width="400" height="250" alt="cell_a2111o" src="https://github.com/user-attachments/assets/f4333e8c-2b55-4a91-b1fb-091ec4262f37" />
 
 
 This cell implements logic function with 5 inputs.       
@@ -95,7 +93,7 @@ The cell definition also shows amount of leakage power for different combination
 
 Different flavours of same cell in the .lib file.
 
-<img width="750" height="800" alt="and_versions" src="https://github.com/user-attachments/assets/b4df3b3d-9d58-4011-9f2a-789fc2b9e8fb" />
+<img width="450" height="300" alt="and_versions" src="https://github.com/user-attachments/assets/b4df3b3d-9d58-4011-9f2a-789fc2b9e8fb" />
 
  
 As per above image, the different flavours of  "AND" gate have different size, area and power consumption.       
@@ -118,30 +116,30 @@ ____________________
 ### 2.2.1 Hierarchial Synthesis :
 
 **Hierarchial Synthesis - RTL Design Overview**
-Cosider an RTL design with **two sub-modules**, both instantiated inside the **top module** as shown in the image below:
+- RTL design with **two sub-modules**, both instantiated inside the **top module** 
 
-> 📷 *(image showing RTL hierarchy with sub-modules u1 and u2)*
-<img width="500" height="600" alt="mutiple_modules" src="https://github.com/user-attachments/assets/280ac112-9f8b-4d71-a058-6819688e14ee" />
+> *(image showing RTL hierarchy with sub-modules u1 and u2)*
+<img width="210" height="180" alt="mutiple_modules" src="https://github.com/user-attachments/assets/280ac112-9f8b-4d71-a058-6819688e14ee" />
 
 
-**Expected Netlist Behavior**   
+**Hierarchial Synthesis - Expected Netlist Behavior**   
 Based on the RTL code, we expect the synthesized netlist to consist of:   
     - AND gates      
     - OR gates      
 > These gates are expected to be inferred from the standard cell library.
-<img width="700" height="500" alt="mutiple_modules_synth" src="https://github.com/user-attachments/assets/25083310-61ef-4956-b8a7-4468e747b55f" />
-__________________________________
+<img width="500" height="300" alt="mutiple_modules_synth" src="https://github.com/user-attachments/assets/25083310-61ef-4956-b8a7-4468e747b55f" />
+________________________________
 
 **Hierarchial Synthesis - Synthesis Result**   
 However, the synthesis result reveals that the **hierarchy has been preserved**.     
 Instead of flattening the design into gates, the synthesis tool retains the **sub-module structure**.   
 
 > NOTE: Sub-modules `u1` and `u2` are used in place of individual gates in the synthesized design hierarchy.
-<img width="700" height="500" alt="multiple_hier_net" src="https://github.com/user-attachments/assets/1399712e-746c-4c3a-95f9-f5a1605c248c" />
+<img width="500" height="300" alt="multiple_hier_net" src="https://github.com/user-attachments/assets/1399712e-746c-4c3a-95f9-f5a1605c248c" />
 
 ---
 
-**Netlist from ABC Synthesis Tool**       
+**Hierarchial Synthesis - Netlist from ABC Synthesis Tool**       
      - The netlist confirms that hierarchy is preserved.       
      - Sub-modules `u1` and `u2` appear explicitly in the netlist.       
      - This matches the structure expected from the RTL code.       
@@ -150,7 +148,7 @@ Instead of flattening the design into gates, the synthesis tool retains the **su
 
 ---
 
-**Summary**
+**Hierarchial Synthesis - Summary**
 - RTL design includes two sub-modules: `u1` and `u2`
 - Synthesis preserves hierarchy instead of flattening to gates
 - ABC tool netlist reflects sub-module structure
@@ -170,91 +168,92 @@ This is especially useful for inspecting gate-level netlists and verifying that 
 * Modules or cells with the keep_hierarchy attribute will not be flattened.
 
  **Synthesis and Flattening Workflow**   
-After synthesizing the design and generating the netlist, we flatten it to verify that all hierarchies are removed and gates are instantiated directly instead of submodules.
+After synthesizing the design and generating the netlist, the design is flattened to verify if all hierarchies are removed and gates are instantiated directly instead of submodules.
 
 ```
-yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib  : READ LIBERTY FILE
-yosys> read_verilog multiple_modules.v                                    : READ FILE with multiple sub-modules
-yosys> synth -top multiple_modules                                        : RUN SYNTHESIS WITH THE TOP MODULE 
-yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib              : MAP TO STANDARD CELLS
-yosys> write_verilog -noattr multiple_modules_hier.v			             : WRITE HIERARCHICAL NETLIST
-
-TO FLATTEN THE DESIGN
-yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib         : READ LIBERTY FILE
-yosys> read_verilog multiple_modules.v                                    : READ FILE with multiple sub-modules
-yosys> synth -top multiple_modules                                        : RUN SYNTHESIS WITH THE TOP MODULE 
-yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib              : MAP TO STANDARD CELLS
-yosys> Flatten							                                 : FLATTEN THE DESIGN TO ...
-yosys> write_verilog -noattr multiple_modules_Flat.v			             : WRITE FLATTENED NETLIST
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib    : READ LIBERTY FILE
+yosys> read_verilog multiple_modules.v                               : READ FILE with multiple sub-modules
+yosys> synth -top multiple_modules                                   : RUN SYNTHESIS WITH THE TOP MODULE 
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib         : MAP TO STANDARD CELLS
+yosys> write_verilog -noattr multiple_modules_hier.v			     : WRITE HIERARCHICAL NETLIST
+```
+_______________________________________
+**TO FLATTEN THE DESIGN**
+_____________________
+```
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib    : READ LIBERTY FILE
+yosys> read_verilog multiple_modules.v                               : READ FILE with multiple sub-modules
+yosys> synth -top multiple_modules                                   : RUN SYNTHESIS WITH THE TOP MODULE 
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib         : MAP TO STANDARD CELLS
+yosys> Flatten							                             : FLATTEN THE DESIGN TO ...
+yosys> write_verilog -noattr multiple_modules_Flat.v			     : WRITE FLATTENED NETLIST
 ```
 	
-Below image shows the difference between the Hierarchical and flattened synthesized netlist:
+netlist when desing is flattened:
+
+<img width="400" height="150" alt="Flatten_net" src="https://github.com/user-attachments/assets/7308c143-da1b-4433-82ad-4ca2834738fd" />
 
 
-<img width="600" height="500" alt="Hier_vs_Flat" src="https://github.com/user-attachments/assets/ca19d930-6aa2-4402-ba5c-d8c7a24b2a6d" />
+**Difference between the Hierarchical and flattened synthesized netlists:**
 
-Below image show the generated netlist when desing is flattened:
+<img width="500" height="400" alt="Hier_vs_Flat" src="https://github.com/user-attachments/assets/ca19d930-6aa2-4402-ba5c-d8c7a24b2a6d" />
 
-<img width="800" height="300" alt="Flatten_net" src="https://github.com/user-attachments/assets/7308c143-da1b-4433-82ad-4ca2834738fd" />
 
 
 ### 2.2.3 Submodule Level Synthesis   
-With multiple sub modules in  top level module, sub module level syntheis can be done.  
+With multiple sub modules in  top level module, sub module level synthesis can be done.  
 * **Reuse of Synthesized Logic:** In case of top module having multiple instances of same submodule, synthesis of a submodule helps to synthesize single instance and using it for the other instances. It saves time as only single instance has to be instantiated.
 * **Scalability for Large Designs:** For large designs, divide and conquer approach is followed to synthesize submodules which helps in reducing load on synthesis tool.
 
-🧪 Example: Synthesizing sub_module1 from multiple_modules.v
+Example: Synthesizing sub_module1 from multiple_modules.v
+
 To understand submodule-level synthesis better, synthesize only sub_module1 and observe the resulting netlist.
 
 ```
 yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
 yosys> read_verilog multiple_modules.v
-yosys> synth -top sub_module1                                              : RUN SYNTHESIS WITH THE SUB-MODULE 
+yosys> synth -top sub_module1                                      : RUN SYNTHESIS WITH SUB-MODULE 1 only 
 yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 yosys> write_verilog -noattr multiple_modules_sub.v			
 ```
 After synthesis It is obvious that synth command looks at the specified sub_module1 alone and sub_module2 is ommitted from synthesis.
 
-Below images show the sub module synthesis of sub_module1:
+Below images show the sub module synthesis and synthesized netlist of sub_module1:
 
-<img width="500" height="400" alt="sub_all" src="https://github.com/user-attachments/assets/723915ae-7bd7-49d9-8018-179ad820e439" />
-
-
-Below images show the sub module synthesize netlist:
-
-<img width="500" height="300" alt="sub_net" src="https://github.com/user-attachments/assets/7ac8c534-aef3-4245-b20d-653bbe05bfc2" />
+<img width="300" height="250" alt="sub_all" src="https://github.com/user-attachments/assets/723915ae-7bd7-49d9-8018-179ad820e439" />
+<img width="300" height="150" alt="sub_net" src="https://github.com/user-attachments/assets/7ac8c534-aef3-4245-b20d-653bbe05bfc2" />
 
 
 ### 2.3 Flop Coding Styles and Optimization
 Before diving into flip-flop coding styles, it's important to understand why flip-flops are essential in digital design.
 
-#### 2.3.1 Why Flip-Flops Are Needed
-In a purely combinational circuit, every gate introduces a propagation delay - a finite time for any of the input changes to reflect at the output. When gates have varying delays, input transitions can cause unwanted output fluctuations, known as: **Glitches**
+#### Why Flip-Flops Are Needed
+In a purely combinational circuit, every gate introduces a propagation delay - a finite time for any of the input changes to reflect at the output. When gates have varying delays, **input transitions** can cause **unwanted output fluctuations**, known as: **Glitches**
 
-#### 2.3.2 Boolean vs Reality
-From Boolean algebra, the output of the circuit should always be 1.    
+#### Boolean vs Reality
+For the given circuit from Boolean algebra, the output should always be 1.    
 However, due to gate delays, the actual output may momentarily dip, as shown in the timing diagram:
 
-<img width="700" height="400" alt="Glitch wave" src="https://github.com/user-attachments/assets/fca5f3b9-3e30-4008-873d-a11eb57a7b8c" />
+<img width="400" height="200" alt="Glitch wave" src="https://github.com/user-attachments/assets/fca5f3b9-3e30-4008-873d-a11eb57a7b8c" />
 
 ```
 Glitch and Timing Waveform
 The more complex the combinational logic, higher the chances of glitches.
 ```
 
-#### 2.3.3 Avoiding Glitches with Flip-Flops
+#### Avoiding Glitches with Flip-Flops
 To mitigate glitches, storage elements—flip-flops are introduced.
 - Flip-flops store the output of a combinational block.
 - Their outputs change only on clock edges, isolating them from input transitions between edges.
 - By placing flip-flops between combinational paths, glitch propagation is prevented and stable outputs are ensured.
 
-#### 2.3.4 Flip-Flops as Timing Barriers
+#### Flip-Flops as Timing Barriers
 Flip-flops act as barriers at the input of a combinational circuit, allowing outputs to settle before being used downstream. This results in:
 - Stable inputs to combinational blocks
 - Predictable and glitch-free outputs
 - Improved timing closure and design reliability
 
-#### 2.3.5 Importance of Initial States in Flip-Flop Coding 
+#### Importance of Initial States in Flip-Flop Coding 
 When coding flip-flops, it's critical to specify their initial states:
 - The output of a flip-flop often feeds into combinational logic.
 - If the initial state is unspecified or unknown, the combinational logic may evaluate to garbage values, leading to unpredictable behavior.
@@ -264,7 +263,7 @@ To avoid such issues, control pins are introduced to manage the initial values o
 - RESET: Sets the flip-flop output to 0
 - SET: Sets the flip-flop output to 1
 
-##### 🔧 Flip-Flop Initialization Control
+##### Flip-Flop Initialization Control
 
 | Control Signal | Output Value | Timing Type     | Description                                                                 |
 |----------------|--------------|------------------|-----------------------------------------------------------------------------|
@@ -277,64 +276,49 @@ To avoid such issues, control pins are introduced to manage the initial values o
 
 	
 ### 2.4 Different Flop coding styles
-#### 2.4.1 Flop Mapping During RTL Synthesis
+#### Flip Flop Mapping During RTL Synthesis
 When synthesizing RTL code, it's crucial to correctly map flip-flops using the **dfflibmap** command. This ensures that the synthesis tool knows where to source the flop cells from to map the sequential elements of the code.
 
-#### 2.4.2 Command Used
+#### Command Used
 ```
 yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
 command to be executed after synth -top and before abc 
 ```
-#### 2.4.3 Why Use dfflipmap
+#### Why Use dfflipmap
 - In many library flows, flip-flops and standard cells are stored in separate Liberty files.
 - The synthesis tool needs explicit direction to locate the flop cells.
-- Without this step, flop inference during synthesis may fail or use incorrect cells leading to incomplete or incorrect synthesis result
-	✅ Our Case
+- This ensures that flip-flops in the RTL are properly recognized and mapped during synthesis.
+
+✅ Our Case
 - The same Liberty file holds information for both standard cells and flops.
 - Hence, the same path is passed to dfflibmap.
  `      yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib      
 
-📁 Library Path
-../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-
-💡 Tip: Always verify your Liberty file contains both standard cells and sequential elements before skipping separate flop mapping.
->This ensures that flip-flops in the RTL are properly recognized and mapped during synthesis.
+Tip: Always verify Liberty file contains both standard cells and sequential elements.
 
 **Synthesizing various D-Flip flop with set and reset being synchronous or asynchronous**
 
-Synthesis Steps using yosys remain the same with an additional step of dfflibmap
-`yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib`
-
-and the corresponding file names
-```
-yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
-yosys> read_verilog dff_asyncre.v
-yosys> synth -top dff_asyncres
-yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-yosys> show		
-```
 #### Asynchronous reset D-Flip flop
     - reset does not waits for the clock edge
-<img width="800" height="600" alt="dff_asynch_res" src="https://github.com/user-attachments/assets/3e3bb173-f68a-406d-b762-6e7bb0319382" />
+<img width="400" height="300" alt="dff_asynch_res" src="https://github.com/user-attachments/assets/3e3bb173-f68a-406d-b762-6e7bb0319382" />
 
 #### Asynchronous set D-Flip flop
     - set will happen only at the next clock edge despite the time when set signal is asserted
-<img width="800" height="600" alt="dff_asynch_set" src="https://github.com/user-attachments/assets/d09d5d54-c281-46a2-ac87-d9f7d27d93e7" />
+<img width="400" height="300" alt="dff_asynch_set" src="https://github.com/user-attachments/assets/d09d5d54-c281-46a2-ac87-d9f7d27d93e7" />
 
 #### Synchronous reset D-Flip flop 
     - reset will happen only at the next clock edge despite the time when set signal is asserted
-<img width="800" height="600" alt="dff_synch_res" src="https://github.com/user-attachments/assets/0eb6d010-2584-4bda-a1e8-d7a8cf7fb0e2" />
+<img width="400" height="300" alt="dff_synch_res" src="https://github.com/user-attachments/assets/0eb6d010-2584-4bda-a1e8-d7a8cf7fb0e2" />
 
 #### Asynchronous & Synchronous reset D-Flip flop
     - The flop has both synchronous as well as asynchronous resetting options
     - Asynchronous reset will get the highest priority
-<img width="800" height="600" alt="dff_asynch_sync_res" src="https://github.com/user-attachments/assets/5006accf-6d2d-4c3b-9c8f-82ffb216e6b1" />
+<img width="400" height="300" alt="dff_asynch_sync_res" src="https://github.com/user-attachments/assets/5006accf-6d2d-4c3b-9c8f-82ffb216e6b1" />
 	
 **NOTE**: For asynchronous reset and synchronous set together, it will not cause race condition. 
           But if the desing have both synchronous reset and set ,it may cause race condition.
+ 
  ---
  ---
  
