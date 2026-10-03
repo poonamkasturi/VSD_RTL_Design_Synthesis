@@ -1,4 +1,4 @@
-# RTL Design and Synthesis 
+# RTL Design and Synthesis using sky130 PDK
 
 ## DAY 1 
 
@@ -42,22 +42,6 @@ This repository documents the labs and learning materials from the [sky130RTLDes
 To Gain a fabrication-aware understanding of digital design, bridging theory with open-source implementation.
 
 ---
-
-### Table of Contents
-
-- [Tools Used](#-tools-used)
-    - [1️⃣ iverilog](#1-iverilog)
-    - [2️⃣ gtkwave](#2-gtkwave)
-    - [3️⃣ Yosys](#3-yosys)
-    - [4️⃣ Technology Used sky130 PDKs](#4-Technology-file-sky130-pdks)  
-- [Work_Flow_D1 – Introduction to Verilog RTL Design and Synthesis](#-Work-Flow-D-1--introduction-to-verilog-rtl-design-and-synthesis)
-  - [1️⃣ Introduction to open-source simulator Icarus Verilog - iverilog](#1-introduction-to-open-source-simulator-icarus-verilog-iverilog)
-  - [2️⃣ Labs Using iverilog and gtkwave](#2-labs-using-iverilog-nd-gtkwave)
-  - [3️⃣ Introduction to Yosys and Logic Synthesis](#3-introduction-to-yosys-and-logic-synthesis)
-  - [4️⃣ Labs using Yosys and Sky130 PDKs](#4-labs-using-yosys-and-sky130-pdks)
-  - Yosys Synthesis Flow Setup - how to synthesize Verilog designs using **Yosys**, targeting the Sky130 standard cell library.
-  - Verifying the Synthesized Netlist - Inspect the synthesized netlist and validate its structure and logic using **NetlistSVG** or other visualization tools.
-
   
 ### TOOLS USED:
 
@@ -108,9 +92,9 @@ _____________________________________
 		1. **RTL Design**  
 		2. **Test Bench**
 
-  		Test bench instantiates the verilog module of design.
-  		Gives stimulus to the input ports of the RTL design.
-  		Instantiated RTL module is executed as per the stimuli.
+  		- Test bench instantiates the verilog module of design.
+  		- Gives stimulus to the input ports of the RTL design.
+  		- Instantiated RTL module is executed as per the stimuli.
          	
 * **Outputs of the simulator** :  
  The iverilog simulator outputs a value chage dump (.vcd) file as output.
@@ -225,97 +209,169 @@ install → The specific action telling apt to fetch and install the package.
 
 ### 2.2 Directory Structure 
 
+## DIRECTORY STRUCTURE PATH IMAGES NEEDED
 
 ---
-
 ---
 
+### 2.3 LAB 1 --- GOOD MUX 2x1
+---
+### *D1Lab1-sim - iverilog Simulation of Multiplexer(MUX)*
+**Recap:** ....
 
-## Lab - iverilog Simulation of Multiplexer(MUX)
-Iverilog simulation is done as per below steps:
-*  iverilog takes RTL design and test bench as input and generates a executable file " a.out".
-*  On executing "a.out" ,it dumps the simulation in value change dump format(.vcd file).
-*  Then GTKWave takes the .vcd file and display the simulation waveform.
-The above steps are shown below:
+**iverilog**
+*  Takes **RTL design** and **test bench** as **inputs**
+*  Generates an executable output file " **a.out**".
+*  Executing "a.out", dumps the simulation data in **value change dump** format(**.vcd file**).
+  
+**GTKWave**
+*  Takes **.vcd** file and **displays** the simulation waveforms.
 
-### 1. Run iverilog with the design verilog file and the testbench as inputs. 
-####   This will create an executable named a.out.
+#### 1. Run iverilog with the design verilog file and the testbench as inputs. 
    
 ```
-$ cd sky130RTLDesignAndSynthesisWorkshop
+$ cd sky130RTLDesignAndSynthesisWorkshop  ... pwd path becomes ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop
 $ ls -ltr
-$ cd verilog_files 
-$ iverilog good_mux.v tb_good_mux.v
+$ cd verilog_files  ........ pwd path becomes ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+$ iverilog good_mux.v tb_good_mux.v ........ execute the iverilog command with two inputs RTL design and Test Bench 
 ```
+_____________________________
+	- good_mux.v → Design file, contains RTL description of mux .
+	- tb_good_mux.v → Testbench file 
+________________________
+	output file a.out generated in pwd....
+	pwd path is ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
 
-### 2. Execute the file a.out. This will generate the value change dump (.vcd) file.
+#### 2. Executing file a.out will generate the value change dump (.vcd) file.
 
 ```
 $ ./a.out
 ```
-### 3. Now run GTKwave with the vcd file as input to view the simulation waveform.
+./ represents pwd  
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-13-50.png)
+
+#### 3. Run GTKwave with the vcd file as input to view the simulation waveform.
 ```
 $ gtkwave tb_good_mux.vcd
 ```
-### 4. To view the signal on the wave window click and drag them to the signal column..
+##### To view the signal on the wave window click and drag them to the signal column..
+	We can see from the waveforms that output y follows the input as per the selection line, sel
+	y = i0 if Sel = 0 and y = i1 if sel = 1
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-26-53.png)
 
-     
-## 1.6 Synthesis with Yosys
+    
+### *D1Lab1-synth - Synthesis of Multiplexer(MUX) 2x1 with yosys*
 
-	      
-### 1.6.1 Yosys Synthesis Flow setup
-The synthesis tool takes the RTL design and the liberty file(.lib) as inputs and synthesize the RTL design into netlist which is the gate level representation of the RTL design.
+**Recap:** ....
 
-Below image shows the Yosys synthesis flow setup: 
+**yosys**
+*  Takes **RTL design** and **liberty file - .lib** as **inputs**
+*  Synthesizes the RTL design into netlist, the gate level representation of the RTL design.
 
+**ABC**
+*  Maps the netlist to technology specific standard cells **liberty file - .lib**.
 
-   
-Below are the steps to synthesize the multiplexer design(good_mux.v):
-### 1. To invoke Yosys:   
+**Grapeviz**
+*  The synthesized design can be viewed on grapeviz
+  
+#### 1. Invoke Yosys:   
 ```
-$ cd verilog_files
-$ yosys
+$ cd verilog_files   ...pwd path becomes ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+$ yosys       .... invokes yosys tool
 ```
-Below image show the yosys synthesis suite:
 
-### 2. Reading sky130 standard library :
+#### 2. Reading sky130 standard library :
 ```
-$ read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
 ```
-read_liberty : It reads cells from liberty file as modules into current design.
-	       The option "-lib"  only create empty blackbox modules.
+	read_liberty : It reads cells from liberty file as modules into current design.
+	-lib: Creates empty blackbox modules.
+	~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/lib/   ..path to the liberty file 
+__________________________________
+
+	1) pwd is ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop/verilog_files
+	2) ../ moves the directory one step up 
+	3) Thus takes the path to ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop 
 	       
-### 3. Reading the RTL design(verilog file) :
+#### 3. Read the RTL design(verilog file):
 ```
-$ read_verilog good_mux.v  
+yosys> read_verilog good_mux.v  
 ```
-**read_verilog :** This command is used to read the verilog desgin file. It load modules from a Verilog file to the current design.
-Below image show the yosys synthesis suite:
+**read_verilog :** This command is used to read the verilog desgin file. 
+It load modules from a Verilog file to the current design.
 
-### 4. Synthesize the top level module  : Below command is used to synthesize the module
+
+#### 4. Synthesize the top level module:
 ```
-$ synth -top good_mux  
+yosys> synth -top good_mux  
 ```
 **synth :** This command runs the default synthesis script. This command does not operate on partly selected designs.
-**-top <module> :** This option use the specified module as top module (default='top'). Here we have module name "good_mux".
-	
-	
-### 5. Mapping to the standard library 
-```
-$ abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-**abc :** This pass uses the ABC tool for technology mapping of yosys's internal gate library to a target architecture. This command converts RTL code into gates,cells which is taken from the sky130_fd_sc_hd__tt_025C_1v80.lib file.
-**-liberty <file> :** It generate netlists for the specified cell library (using the liberty file format).
 
+**-top <module> :** This option use the specified module as top module (default='top'). - "good_mux"
+
+	
+#### 5. Technology Mapping to standard library 
+```
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+	The abc pass invokes ABC tool to perform technology mapping, converting Yosys’s internal gate representation (netlist)
+	into cells from the target architecture (standard cell sky130_fd_sc_hd__tt_025C_1v80.lib). 
+
+
+**abc** → Calls the ABC tool from inside Yosys. ABC specializes in logic optimization and mapping.
+
+**-liberty** → Specifies the standard cell library (in Liberty .lib format) to be used for mapping.
+
+**../lib/sky130_fd_sc_hd__tt_025C_1v80.lib** → Path to the Sky130 standard cell library file.
+```
+		sky130_fd_sc_hd → High‑density standard cell library.
+		tt_025C_1v80 → “Typical‑typical” corner, at 25 °C and 1.8 V supply. 
+		....This defines timing and power characteristics under typical operating conditions....
+```
 **NOTE:** The path of the sky130_fd_sc_hd__tt_025C_1v80.lib   should match with the path where the file is saved in the system
 	
-### 6. To view the result as a grapviz use the below command
+#### 6. To view the result as a graphviz use the below command
 ```
-$ show
+yosys> show
 ``` 
-**Show :** It creates  graphviz DOT file for the selected part of the design and compile it to a graphics file (usually SVG or PostScript).It is used to show the logic realized from the verilog code after synthesis.
+**Show :** It creates graphviz DOT file for the selected part of the design and compile it to a graphics file (usually SVG or PostScript).
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-52-21.png)
 
-### 7. To write the netlist in a .v file
-$ write_verilog -noattr <filename.v>
+#### 7. To write the netlist in a .v file
+yosys> write_verilog -noattr <filename.v>
+
+##  TO CHECK IF IT IS TO BE DONE
+
+### SUMMARY of Commands
+
+#### Installation
+```
+$ cd Desktop
+$ mkdir VLSI_PK
+$ gitclone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+$ sudo apt install iverilog
+$ sudo apt install gtkwave
+$ cd sky130RTLDesignAndSynthesisWorkshop
+$ cd verilog_files
+
+```
+#### Simulation 
+```
+$ iverilog good_mux.v tb_good_mux.v
+$ ./a.out
+$ gtkwave tb_good_mux.vcd
+```
+
+#### Synthesis
+```
+$ yosys
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> read_verilog good_mux.v
+yosys> synth -top good_mux
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lb
+yosys> show
+yosys> write_verilog -noattr <filename.v>
+```
