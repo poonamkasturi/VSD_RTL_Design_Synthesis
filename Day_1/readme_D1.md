@@ -85,20 +85,12 @@ The first day of the workshop covers the brief description of iverilog simulator
 
   Test bench doesn't have any primary inputs and primary outputs of its own.
 
- <dl>
-  <dd>Below image shows the test bench set up :</dd>
- </dl>
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20131029%20Th%20D1_1.png)
 
- ```
 
-```
-  
-
-  * **Outputs:** Outputs from the design are to be observed using another tool - gtkwave
-   
+* **Outputs:** Outputs from the design are to be observed using another tool - gtkwave
+_____________________________________   
 	   
-
- 
 ### 1.2 Simulation Flow of the Designs - iverilog
 * **Simulation :** Simulation is the process by which the HDL design model gets executed
   to verify the functional correctness of the digital design.
@@ -106,28 +98,27 @@ The first day of the workshop covers the brief description of iverilog simulator
 * **Simulator :** It is the tool used for simulating the design. **"iverilog"** is being used in this work.
 	
 * **How does a simulator work ?**
-  - Simulator works by continuously monitoring the changes in the inputs.
+  -	Simulator works by continuously monitoring the changes in the inputs.
   - Upon a change in any of the inputs, the output is re-evaluated.
   - Simulator dumps the changes in the ouputs according to the change in input to a file as ***.vcd**.
   
-* **Inputs to the simulator**:  
-    The **iverilog** simulator accepts two main inputs.  
-	  1. **RTL Design**  
-    2. **Test Bench** 
-          - Test bench instantiates the verilog module of design, gives stimulus to the input ports of the RTL design.
-          - the instantiated RTL module is executed as per the stimuli.
+* **Inputs to the simulator**:
+
+  The **iverilog** simulator accepts two main inputs.  
+		1. **RTL Design**  
+		2. **Test Bench**
+
+  		Test bench instantiates the verilog module of design.
+  		Gives stimulus to the input ports of the RTL design.
+  		Instantiated RTL module is executed as per the stimuli.
          	
 * **Outputs of the simulator** :  
  The iverilog simulator outputs a value chage dump (.vcd) file as output.
 
  **This vcd file can be viewed using the GTKWave viewer tool.**  
-<dl>
-  <dd>Below image shows the complete iverilog simulation flow : </dd>
-</dl>	 
- 
-```
 
-```
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20130931%20Th%20D1_2.png)
+___________________________________________
 
 ### 1.3 Synthesis FLow - yosys
 
@@ -144,26 +135,15 @@ In simple terms:
 The tool is abc
 	-	Technology Mapping maps the generic gates in the netlist onto standard cells defined in the PDKs used - (SkyWater-Sky130 PDK).
 
-<br>
-<p></p>
-🔹	ABC (A System for Sequential Logic Synthesis and Formal Verification) is an external tool developed at UC Berkeley. 
+🔹	**ABC** (A System for Sequential Logic Synthesis and Formal Verification) is an external tool developed at UC Berkeley. 
 	
 	-	It specializes in logic optimization, technology mapping, and verification.
 
-🔹 In Yosys, ABC tool is called using the abc command, 
+🔹 In **Yosys**, ABC tool is called using the abc command, 
 	
 	-	This internally hands the netlist over to the ABC tool. 
 	-	Yosys then uses ABC’s algorithms to perform logic optimization and technology mapping 
 	-	Technology mapping is done against a given standard cell library (like Sky130).
-<p></p>
-<br>
-
-
-  
-```
-
-```
-
 ---
 
 ## 2. LAB_WORK_FLOW 
@@ -183,24 +163,36 @@ The goal is to create a reliable and efficient workspace for synthesis, simulati
 | **Storage**| 50 GB HDD |
 | **vCPU**| 4|
 
-- latest version of ubuntu (18 or above) that is available
+- latest version of ubuntu (18 or above) that is available to be used
  
-**The harddisk image provided by VSD is to be attached with the VM** - 
-
-<br>
+**The harddisk image provided by VSD is to be attached with the VM**
+____________________________________
 
 #### **** CREATE THE WORKING SPACE - git-clone VSD repository
-- Created a directory on Desktop
-- mkdir VLSI_PK
-- gitcloned the repository in VLSI_PK directory
--
-- https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
-- 
--  This comes with a pre-configured VM environment
--  and installed DIRECTORY STRUCTURE
-<br>
+- Create a directory on Desktop - this will be the user specified working directory
+- in this user specified working directory gitclone the repository 
+		https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+-  gitclonning will create a copy of the repository in the user specified working directory with the complete DIRECTORY STRUCTURE
+-  change to the main repository directory ---- skyRTLDesignAndSynthesisWorkshop
 
-<br>
+> commands to be followed
+
+```
+$ cd Desktop      .............. current directory will become Desktop
+$ mkdir VLSI_PK   .............. NOTE: This is a user specified directory - newly created
+$ cd VLSI_PK      .............. present working directory path will be ~/Desktop/VLSI_PK
+$ gitclone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git ........... Directory structure will be created in ~/Desktop/VLSI_PK
+$ ls              .............. will list the contents in pwd
+$ cd sky130RTLDesignAndSynthesisWorkshop ........... pwd path will now be ~/Desktop/VLSI_PK/sky130RTLDesignAndSynthesisWorkshop
+```
+###### NOTE: 
+	before doing a gitclone check if git is installed	
+	command to do that
+	$ git --version
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_17-59-58.png)
+_____________________________________
+
 
 #### **** System Check for TOOL INSTALLATION and Verification
 
@@ -209,17 +201,33 @@ The goal is to create a reliable and efficient workspace for synthesis, simulati
 | **Yosys**| RTL synthesis for Verilog designs | yosys/ | Pre-Installed|
 | **iverilog**| Verilog Simulation and Compilation | icarus-verilog/ |To-be-Installed|
 | **GTKwave**| Waveform Viewer & Analysis | gtkwave/ |To-be-Installed|
-
-<br>
+_________________________________________________
 
 #### **** Open-Source TOOL INSTALLATION - iverilog and gtkwave
+> commands to be followed
 
+```
+$ sudo apt install iverilog      .............. open-source tool iverilog will be installed
+$ sudo apt install gtkwave       .............. open-source tool gtkwave will be installed
+```
+The command **"sudo apt install `<package-name>`"** is used on Ubuntu (and other Debian‑based Linux systems) to install software packages from the system’s package repositories.
+```
+sudo → Runs the command with superuser (administrator) privileges. Installing software modifies system directories, so elevated rights are required.
+apt → The modern package manager interface for Debian/Ubuntu. It handles installing, updating, and removing software.
+install → The specific action telling apt to fetch and install the package.
+<package-name> → The name of the software to be install (e.g., iverilog, gtkwave, vim, gcc).
+```
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-03-22.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-09-30_18-08-53.png)
 
 ---
+
 ### 2.2 Directory Structure 
 
 
 ---
+
 ---
 
 
