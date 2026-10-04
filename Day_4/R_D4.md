@@ -119,7 +119,6 @@ RTL Simulation - Pre Synthesis Simulation
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_2026-10-04_22-22-09%20bad_mux%20gtk.png)
 GLS - Post Synthesis Simulation
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_2026-10-04_22-22-09%20bad_mux%20gtk%20GLS.png)
-
 Synthesized Schematic
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20152500%20D4Lab2%20Bad_mux%20synth.png)
 
