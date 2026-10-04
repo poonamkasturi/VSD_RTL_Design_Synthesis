@@ -187,16 +187,6 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143021%20D3Lab5%20dff_const1%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143525%20D3Lab5%20dff_const1%20synth.png)
 
-### 3.5 Sequential optimizations for unused outputs:
-##### Example: Counter Optimization in Synthesis
-
-At first glance, the code appears to describe a **3-bit counter**, so one might expect three flip-flops after synthesis.  
-
-However, Examing closely:
-- After reset, the value of `count` is `000`.
-- On each positive clock edge, `count` increments.
-- The output `q` simply follows `count[0]` (the least significant bit).
-
 ### *D3Lab11 -*
 ```verilog
 module dff_const2(input clk, input reset, output reg q);
@@ -213,7 +203,10 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
-### *D3Lab12 - counter_opt.v*
+
+### 3.5 Sequential - Optimizations for Unused Outputs:
+
+### *D3Lab12 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
 
 ```verilog
 module counter_opt (input clk , input reset , output q);
@@ -230,9 +223,38 @@ end
 
 endmodule
 ```
-![]()
-![]()
-![]()
+
+At first glance, the RTL code appears to describe a **3-bit counter**, so one would expect three flip-flops after synthesis. 
+
+### Detailed Observation from the simulation waveforms
+- After reset, the value of `count` is `000`.  
+- On each positive clock edge, `count` increments.  
+- The output `q` simply follows `count[0]` (the least significant bit).
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-46-57%20counter_opt%20gtk.png)
+
+### Synthesized Schematic Without Optimization
+- The synthesized design reflects the expected **3-bit counter** as described in the RTL.  
+- All three flip-flops are present, even though only `count[0]` is functionally used.
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt%20synth%20wo_purge.png)
+
+### Synthesized Schematic After Optimization
+- The synthesis tool removes **unused outputs** while preserving functionality.  
+- Only **one flip-flop** is inferred, corresponding to `count[0]`.  
+- The input to this flip-flop is the **complement of its output**, effectively creating a **toggle flip-flop**.
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt%20synth%20w_purge.png)
+
+### Key Takeaway - on executing the **opt_clean -purge** command.
+Optimization ensures that:
+- **Redundant logic** is eliminated.  
+- **Functionality** of the design is maintained
+
+---
+---
+
+<img width="600" height="400" alt="Sequential_unused_output_opt" src="https://github.com/user-attachments/assets/335e1a66-5b3c-447e-80c7-ab7c370373cd" />
 
 ### *D3Lab13 - counter_opt2.v*  
 ```verilog
@@ -250,24 +272,6 @@ end
 
 endmodule
 ```
-![]()
-![]()
-![]()
-
-### Key Insight
-Since only `count[0]` is used in the design:
-- The synthesizer recognizes that higher bits of `count` are **unused**.
-- The optimized circuit infers **only one flip-flop**.
-- The output of that flip-flop (`Q`) corresponds directly to `count[0]`.
-- The input to the flip-flop is the **complement of its output**, effectively creating a **toggle flip-flop**.
-
-### Result
-- **Expected (naïve view):** 3 flip-flops for a 3-bit counter.  
-- **Actual (optimized):** 1 flip-flop, functioning as a toggle, with `Q = count[0]`.  
-
-Thus we can say that, the logic which is no way related to primary output will be optimized by the synthesis tool on executing the **opt_clean -purge** command.
-
-<img width="600" height="400" alt="Sequential_unused_output_opt" src="https://github.com/user-attachments/assets/335e1a66-5b3c-447e-80c7-ab7c370373cd" />
-
-
-
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-46-57%20counter_opt2%20gtk.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt2%20synth%20wo_purge.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt2%20synth%20w_purge.png)
