@@ -154,6 +154,7 @@ Since only `count[0]` is used in the design:
 - **Actual (optimized):** 1 flip-flop, functioning as a toggle, with `Q = count[0]`.  
 
 Thus we can say that, the logic which is no way related to primary output will be optimized by the synthesis tool on executing the **opt_clean -purge** command.
+
 <img width="600" height="400" alt="Sequential_unused_output_opt" src="https://github.com/user-attachments/assets/335e1a66-5b3c-447e-80c7-ab7c370373cd" />
 
 
