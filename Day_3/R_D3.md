@@ -160,7 +160,14 @@ module opt_check4 (input a , input b , input c , output y);
  assign y = a?(b?(a & c ):c):(!c);
  endmodule
 ```
-<img width="650" height="450" alt="Comb_yosys_opt" src="https://github.com/user-attachments/assets/7154dec8-ecdc-4343-a37d-36f3c6ddd4fa" />
+
+**Nested Ternary Logic**
+-	If a = 1, y = (b ? (a & c) : c) = c 
+-	If a = 0, y = !c
+
+**Simplified Expression** .........y = a ? c : !c
+
+<img width="550" height="400" alt="Comb_yosys_opt" src="https://github.com/user-attachments/assets/7154dec8-ecdc-4343-a37d-36f3c6ddd4fa" />
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20140852%20D3Lab4%20XNOR%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20141157%20D3Lab4%20XNOR%20synth.png)
