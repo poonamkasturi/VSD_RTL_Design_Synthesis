@@ -204,7 +204,7 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
 
-### 3.5 Sequential - Optimizations for Unused Outputs:
+## 3.5 Sequential - Optimizations for Unused Outputs:
 
 ### *D3Lab12 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
 
@@ -224,9 +224,9 @@ end
 endmodule
 ```
 
-At first glance, the RTL code appears to describe a **3-bit counter**, so one would expect three flip-flops after synthesis. 
+At first glance, the RTL code appears to describe a **3-bit counter**, so one would expect **three flip-flops** after synthesis. 
 
-### Detailed Observation from the simulation waveforms
+### Detailed Observation from Simulation waveforms
 - After reset, the value of `count` is `000`.  
 - On each positive clock edge, `count` increments.  
 - The output `q` simply follows `count[0]` (the least significant bit).
@@ -234,7 +234,7 @@ At first glance, the RTL code appears to describe a **3-bit counter**, so one wo
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-46-57%20counter_opt%20gtk.png)
 
 ### Synthesized Schematic Without Optimization
-- The synthesized design reflects the expected **3-bit counter** as described in the RTL.  
+- The synthesized design reflects the expected **3-bit counter** as captured in the RTL description.  
 - All three flip-flops are present, even though only `count[0]` is functionally used.
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt%20synth%20wo_purge.png)
@@ -246,7 +246,7 @@ At first glance, the RTL code appears to describe a **3-bit counter**, so one wo
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt%20synth%20w_purge.png)
 
-### Key Takeaway - on executing the **opt_clean -purge** command.
+### Key Takeaway - on executing the `opt_clean -purge` command.
 Optimization ensures that:
 - **Redundant logic** is eliminated.  
 - **Functionality** of the design is maintained
