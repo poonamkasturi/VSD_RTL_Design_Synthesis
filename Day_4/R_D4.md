@@ -84,11 +84,27 @@ module ternary_operator_mux (input i0 , input i1 , input sel , output y);
 	assign y = sel?i1:i0;
 	endmodule
 ```
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20150121%20D4Lab1%2021mux%20gtk.png)
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20150342%20D4Lab1%2021mux%20synth.png)
+
+<p></p>
+GLS - Post Synthesis Simulation
+<p></p>
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20151530%20%20D4Lab1%2021mux%20GLS%20gtk.png)
 
 **The close match between RTL and GLS waveforms confirms that the synthesized netlist conforms to the intended RTL functionality.**
+
+<p></p>
+Synthesized Schematic
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20150342%20D4Lab1%2021mux%20synth.png)
+
+
 
 ### 4.3 Synthesis-Simulation Mismatch :
 
@@ -100,7 +116,7 @@ These mismatches can arise from
 
 - **Non-standard Verilog coding** - Constructs outside synthesizable Verilog or poor coding practices can cause discrepancies between RTL simulation and gate-level behavior.  
 
-### *D4Lab14 - Missing Sensitivity List  bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
+### *D4Lab14 - Missing Sensitivity List *** bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
 
 RTL Design
 
@@ -115,41 +131,54 @@ begin
 end
 endmodule
 ```
+<p></p>
 RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_2026-10-04_22-22-09%20bad_mux%20gtk.png)
+
+<p></p>
 GLS - Post Synthesis Simulation
+<p></p>
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_bad_mux%20gtk%20GLS.png)
 
-Synthesized Schematic
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20152500%20D4Lab2%20Bad_mux%20synth.png)
+#### OBSERVATIONS: RTL simulation output waveform and the GLS waveform do not match.  
 
-## Synthesis–Simulation Mismatch: Missing Sensitivity List
-
-In this case, the RTL simulation output waveform and the synthesized netlist gate-level simulation output waveform do not match.  
-This discrepancy arises due to the problem of a **missing sensitivity list**.
-
-### What Happens in RTL Simulation
+#### RTL Simulation
 - The `always` block is evaluated only when **`sel`** changes.  
 - It is **independent of changes in inputs (`i0`, `i1`)**.  
 - As a result, the output is not updated when inputs change.  
 - The simulator interprets this behavior as a **latch**, rather than a proper multiplexer.
 
-### Why This is a Problem
-- The synthesized netlist correctly infers a **mux**, but the RTL simulation infers a **latch**.  
-- This mismatch leads to **different waveforms** between RTL simulation and GLS.  
-- It highlights the importance of writing **complete sensitivity lists** in RTL code to avoid unintended latch inference.
+#### GLS Simulation
+- The synthesized netlist correctly infers a **mux**
 
-### Fixing the Missing Sensitivity List Problem
+#### HIDDEN ISSUE
+- GLS infers  **mux** but RTL simulation infers a **latch**.  
+- This mismatch leads to **different waveforms** between RTL simulation and GLS.
 
-To solve this issue, the `always` block should be written as:
+#### REASON: **missing sensitivity list**.
+
+#### Fixing the Missing Sensitivity List Problem
+It is important to write **complete sensitivity lists** in RTL code to avoid unintended latch inference.
+`always` block should be written as:
 
 ```verilog
 always @(*)
 begin
    // mux logic here
 end
+```
 
-	
+<p></p>
+Synthesized Schematic
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20152500%20D4Lab2%20Bad_mux%20synth.png)
+
+___________________________________________________________________________
+
 ### 4.3.2 Blocking and Non-blocking assignments in verilog :
 Blocking and Non-blocking statements come into picture when we are using "always" block. 
 
