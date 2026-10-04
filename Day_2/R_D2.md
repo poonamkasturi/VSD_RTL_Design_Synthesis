@@ -159,7 +159,6 @@ However, the synthesis result reveals that the **hierarchy has been preserved**.
 Instead of flattening the design into gates, the synthesis tool retains the **sub-module structure**.   
 
 > NOTE: Sub-modules `u1` and `u2` are used in place of individual gates in the synthesized design hierarchy.
-<img width="500" height="300" alt="multiple_hier_net" src="https://github.com/user-attachments/assets/1399712e-746c-4c3a-95f9-f5a1605c248c" />
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_03-49-23%20mult_mod%20synth%20hier.png)
 
@@ -213,8 +212,6 @@ yosys> write_verilog -noattr multiple_modules_Flat.v			     : WRITE FLATTENED NE
 	
 netlist when desing is flattened:
 
-<img width="400" height="150" alt="Flatten_net" src="https://github.com/user-attachments/assets/7308c143-da1b-4433-82ad-4ca2834738fd" />
-
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-13-10%20MM_flatten.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-15-03%20MM_flat_netlist.png)
 
@@ -242,10 +239,13 @@ yosys> write_verilog -noattr multiple_modules_sub.v
 ```
 After synthesis It is obvious that synth command looks at the specified sub_module1 alone and sub_module2 is ommitted from synthesis.
 
-Below images show the sub module synthesis and synthesized netlist of sub_module1:
+Below images show the sub module1 synthesis image and synthesized netlist of sub_module1:
 
 <img width="300" height="250" alt="sub_all" src="https://github.com/user-attachments/assets/723915ae-7bd7-49d9-8018-179ad820e439" />
 <img width="300" height="150" alt="sub_net" src="https://github.com/user-attachments/assets/7ac8c534-aef3-4245-b20d-653bbe05bfc2" />
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-03-14%20synth%20sub_module1.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot_2026-10-04_04-04-56%20MM_H_sub1_netlist3.png)
 
 _______________________________
 
@@ -343,25 +343,21 @@ module dff_asyncres (
       q <= d;
 endmodule
 ```
-<img width="400" height="300" alt="dff_asynch_res" src="https://github.com/user-attachments/assets/3e3bb173-f68a-406d-b762-6e7bb0319382" />
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/output_dff_asyncres.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/dff_AH_async_rst.png)
 
-#### Asynchronous set D-Flip flop
-    - set will happen only at the next clock edge despite the time when set signal is asserted
-<img width="400" height="300" alt="dff_asynch_set" src="https://github.com/user-attachments/assets/d09d5d54-c281-46a2-ac87-d9f7d27d93e7" />
+OBSERVATIONS:
+```
+1. Asynchronous reset - when 1 output goes to 0 irrespective of clock
+2. Asynchronous reset - when 0 output follows d input at the positive clock edge
+```
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_2/Assests_D2/Screenshot%202026-10-01%20130034%20dff_asyncrst%20synth.png)
+
 
 #### Synchronous reset D-Flip flop 
     - reset will happen only at the next clock edge despite the time when set signal is asserted
 <img width="400" height="300" alt="dff_synch_res" src="https://github.com/user-attachments/assets/0eb6d010-2584-4bda-a1e8-d7a8cf7fb0e2" />
 
-#### Asynchronous & Synchronous reset D-Flip flop
-    - The flop has both synchronous as well as asynchronous resetting options
-    - Asynchronous reset will get the highest priority
-<img width="400" height="300" alt="dff_asynch_sync_res" src="https://github.com/user-attachments/assets/5006accf-6d2d-4c3b-9c8f-82ffb216e6b1" />
-	
-**NOTE**: For asynchronous reset and synchronous set together, it will not cause race condition. 
-          But if the desing have both synchronous reset and set ,it may cause race condition.
- 
- ---
- ---
- 
+
 
