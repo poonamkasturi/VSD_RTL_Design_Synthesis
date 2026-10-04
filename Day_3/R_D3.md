@@ -165,13 +165,9 @@ module opt_check4 (input a , input b , input c , output y);
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20140852%20D3Lab4%20XNOR%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20141157%20D3Lab4%20XNOR%20synth.png)
 
-#### --- Sequential Logic Optimizations ---
-To understand optimization with yosys, lets take an exmaple of dff_const5.v :
-In the below circuit we can see that the circuit obatained after synthesis and optimization is similar to what we expected as per RTL code. Thus in this case no optimization is possible. 
+## --- Sequential Logic Optimizations ---
 
-<img width="650" height="400" alt="Sequential_yosys_opt" src="https://github.com/user-attachments/assets/b8e7f12a-78de-4786-8db1-b421cb6b1e60" />
-
-### *D3Lab10 -*
+### *D3Lab10 - Optimization  dff_const1.v : Active High Asynchronous Reset* ******************
 ```verilog
 module dff_const1(input clk, input reset, output reg q);
 always @(posedge clk, posedge reset)
@@ -184,6 +180,13 @@ end
 
 endmodule
 ```
+
+Functionality:
+
+D flip-flop with Active High Asynchronous Reset 
+-	Reset = 1 makes output q go to 0
+-	Reset = 0 loads constant 1 onto theoutput
+									
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143021%20D3Lab5%20dff_const1%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143525%20D3Lab5%20dff_const1%20synth.png)
 
