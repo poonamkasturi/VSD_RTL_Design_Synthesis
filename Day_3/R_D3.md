@@ -213,6 +213,47 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
+### *D3Lab12 - counter_opt.v*
+
+```verilog
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = count[0];
+
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
+end
+
+endmodule
+```
+![]()
+![]()
+![]()
+
+### *D3Lab13 - counter_opt2.v*  
+```verilog
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = (count[2:0] == 3'b100);
+
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
+end
+
+endmodule
+```
+![]()
+![]()
+![]()
+
 ### Key Insight
 Since only `count[0]` is used in the design:
 - The synthesizer recognizes that higher bits of `count` are **unused**.
