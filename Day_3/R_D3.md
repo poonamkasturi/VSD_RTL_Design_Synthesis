@@ -69,26 +69,22 @@ Techniques used for optimizimg the sequential logic :
 	* Retiming
 	* Sequential Logic cloning(Floorplan aware synthesis)
 
-#### --- Sequential Constant Propagation --- NEEDS TO BE CHECKED >> CONTENT NOT CORRECT
+#### --- Sequential Constant Propagation --- 
 
-In code below if ```set = 1 ``` then ``` Q = 1 ``` and when ``` set = 0 , clk = 1 ``` then ``` Q = 0 ```. Thus output is following input 'd' at clock edge. So the output Q can not be optimized, thus sequential constant can not propagate. 
-	If a constant connected to the input of a D Flop makes the Q output always constant.. 
-                then the flop can be optimized (replaced by the constant propogated)
+-	If a constant connected to the input of a D Flop makes the Q output always constant.. then the flop can be optimized (replaced by the constant propogated)
 
 <img width="400" height="200" alt="Sequential_Constant_propagation_opt" src="https://github.com/user-attachments/assets/38699711-bb3a-4c99-9d18-750fcccab4d5" />
 
 
-  But if a constant connected to the input of a D Flop does not makes its Q output a constant value
-                then that flop or logic can not be optimized. The Flop needs to be retained
+<br><p>
 
-<img width="350" height="170" alt="Sequential_Constant_NO_propagation_" src="https://github.com/user-attachments/assets/d0a23e40-b98f-4880-8f9e-332e4ccd5424" />
-
+-	But if a constant connected to the input of a D Flop does not makes its Q output a constant value ...then that flop or logic can not be optimized. The Flop needs to be retained
+<p><br>
 **NOTE** :
 * A constant connected to the input of a flop does not mean that we can always optimize its output.
 * Every flop with D input tied to '0' is not a sequential constant.
 * For flop to become sequential constant , the Q output pin should always take a constant value.
 
-	
 #### --- Advanced Techniques ---
 1. State Optimization : it is used  for Optimization of unused states.
 2. Sequential Logic cloning : It is done when we are using physical aware synthesis.
@@ -96,8 +92,6 @@ In code below if ```set = 1 ``` then ``` Q = 1 ``` and when ``` set = 0 , clk = 
 	
 	
 ### 3.4 Logic optimizations with Yosys
-#### --- Combinational Logic Optimizations ---
-
 ```
 yosys> read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
 yosys> read_verilog <verilog_file_name>       : e.g. opt_check.v
@@ -124,7 +118,7 @@ yosys> show
 - Reduces Circuit Size and Simulation Time while maintaining the logic of the design
 
 
-## Simulation and Synthesis with `opt_clean` command
+## --- Combinational Logic Optimizations ---
 ### *D3Lab6 - Optimization - opt_check.v -- 2 input AND gate* ********************
 
 ```verilog
@@ -132,6 +126,7 @@ module opt_check (input a , input b , output y);
 	assign y = a?b:0;
 endmodule
 ```
+-	A 2x1 MUXs optimized to 2 input AND gate because of a constant input
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20131944%20opt%20check.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20132712%20D3Lab1%202input_AND%20synth.png)
@@ -142,6 +137,8 @@ module opt_check2 (input a , input b , output y);
 	assign y = a?1:b;
 endmodule
 ```
+-	A 2x1 MUXs optimized to 2 input OR gate because of a constant input
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20133951%20D3Lab1%202input_AND%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20134229%20D3Lab2%202input_OR%20synth.png)
 
@@ -151,6 +148,8 @@ module opt_check3 (input a , input b, input c , output y);
 	assign y = a?(c?b:0):0;
 endmodule
 ```
+-	Two 2x1 MUXs optimized to one 3 input AND gate because of constant inputs
+  
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20134832%20D3Lab3%203input_AND%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20135204%20D3Lab3%203input_AND%20synth.png)
 
@@ -264,27 +263,6 @@ Optimization ensures that:
 - **Redundant logic** is eliminated.  
 - **Functionality** of the design is maintained
 
+
 ---
----
 
-<img width="600" height="400" alt="Sequential_unused_output_opt" src="https://github.com/user-attachments/assets/335e1a66-5b3c-447e-80c7-ab7c370373cd" />
-
-### *D3Lab13 - counter_opt2.v*  
-```verilog
-module counter_opt (input clk , input reset , output q);
-reg [2:0] count;
-assign q = (count[2:0] == 3'b100);
-
-always @(posedge clk ,posedge reset)
-begin
-	if(reset)
-		count <= 3'b000;
-	else
-		count <= count + 1;
-end
-
-endmodule
-```
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-46-57%20counter_opt2%20gtk.png)
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt2%20synth%20wo_purge.png)
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-04_17-50-19%20counter_opt2%20synth%20w_purge.png)
