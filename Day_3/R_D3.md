@@ -187,7 +187,8 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143021%20D3Lab5%20dff_const1%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143525%20D3Lab5%20dff_const1%20synth.png)
 
-### *D3Lab11 -*
+### *D3Lab11 - Optimization  dff_const2.v : output q always set to 1 (regardless of reset or clock)* ****************
+
 ```verilog
 module dff_const2(input clk, input reset, output reg q);
 always @(posedge clk, posedge reset)
@@ -200,6 +201,8 @@ end
 
 endmodule
 ```
+Redundant signals reset and clk removed 
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
