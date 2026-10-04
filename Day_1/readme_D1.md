@@ -367,7 +367,6 @@ yosys> show
 #### 7. To write the netlist in a .v file
 yosys> write_verilog -noattr <filename.v>
 
-##  TO CHECK IF IT IS TO BE DONE
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-48-01%20yosys%20write%20exit.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot_2026-10-03_15-48-44%20good_mux_netlist1.png)
 
