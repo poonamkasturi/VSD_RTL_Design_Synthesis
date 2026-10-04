@@ -166,6 +166,11 @@ module opt_check4 (input a , input b , input c , output y);
 
 **Simplified Expression** .........y = a ? c : !c
 
+### .....................................................
+<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/6e829b8e-c7b5-4d21-8422-f005a3548487" />
+<img width="300" height="200" alt="image" src="https://github.com/user-attachments/assets/e0c7e278-b5a5-4ffd-bdfb-ac8e26e0c301" />
+
+### .....................................................
 <img width="550" height="400" alt="Comb_yosys_opt" src="https://github.com/user-attachments/assets/7154dec8-ecdc-4343-a37d-36f3c6ddd4fa" />
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20140852%20D3Lab4%20XNOR%20gtkwave.png)
