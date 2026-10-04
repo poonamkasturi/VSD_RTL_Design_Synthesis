@@ -123,23 +123,24 @@ yosys> show
 ##### Significance
 - Reduces Circuit Size and Simulation Time while maintaining the logic of the design
 
-<img width="650" height="450" alt="Comb_yosys_opt" src="https://github.com/user-attachments/assets/7154dec8-ecdc-4343-a37d-36f3c6ddd4fa" />
 
 ## Simulation and Synthesis with `opt_clean` command
-### D3Lab6 - Optimization - opt_check.v -- 2 input AND gate ********************
+### *D3Lab6 - Optimization - opt_check.v -- 2 input AND gate* ********************
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20131944%20opt%20check.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20132712%20D3Lab1%202input_AND%20synth.png)
 
-### D3Lab7 - Optimization - opt_check2.v -- 2 input OR gate ********************
+### *D3Lab7 - Optimization - opt_check2.v -- 2 input OR gate* ********************
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20133951%20D3Lab1%202input_AND%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20134229%20D3Lab2%202input_OR%20synth.png)
 
-### D3Lab8 - Optimization - opt_check3.v -- 3 input AND gate ********************
+### *D3Lab8 - Optimization - opt_check3.v -- 3 input AND gate* ********************
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20134832%20D3Lab3%203input_AND%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20135204%20D3Lab3%203input_AND%20synth.png)
 
-### D3Lab9 - Optimization - opt_check4.v -- Logic optimized to 2 input XNOR gate ********************
+### *D3Lab9 - Optimization - opt_check4.v -- Logic optimized to 2 input XNOR gate* ********************
+<img width="650" height="450" alt="Comb_yosys_opt" src="https://github.com/user-attachments/assets/7154dec8-ecdc-4343-a37d-36f3c6ddd4fa" />
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20140852%20D3Lab4%20XNOR%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20141157%20D3Lab4%20XNOR%20synth.png)
 
@@ -149,7 +150,7 @@ In the below circuit we can see that the circuit obatained after synthesis and o
 
 <img width="650" height="400" alt="Sequential_yosys_opt" src="https://github.com/user-attachments/assets/b8e7f12a-78de-4786-8db1-b421cb6b1e60" />
 
-### D3Lab10 -
+### *D3Lab10 -*
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143021%20D3Lab5%20dff_const1%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143525%20D3Lab5%20dff_const1%20synth.png)
 
@@ -163,7 +164,7 @@ However, Examing closely:
 - On each positive clock edge, `count` increments.
 - The output `q` simply follows `count[0]` (the least significant bit).
 
-### D3Lab11 -
+### *D3Lab11 -*
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
