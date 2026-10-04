@@ -92,40 +92,62 @@ module ternary_operator_mux (input i0 , input i1 , input sel , output y);
 
 ### 4.3 Synthesis-Simulation Mismatch :
 
-Although the generated netlist is the true representation of the RTL design, it is still necessary to validate its functionality to ensure correctness and avoid potential hidden mismatches. The **synthesis–simulation mismatches** can arise from:
-
+If GLS waveforms do not match with the RTL simulation waveforms, it points to potentially hidden **synthesis–simulation mismatches**. 
+These mismatches can arise from 
 - **Missing sensitivity list**  - Incomplete sensitivity lists in RTL can cause simulation behavior to differ from synthesis results.  
 
 - **Blocking vs. Non-Blocking assignments** - Incorrect usage of `=` (blocking) vs. `<=` (non-blocking) 
 
 - **Non-standard Verilog coding** - Constructs outside synthesizable Verilog or poor coding practices can cause discrepancies between RTL simulation and gate-level behavior.  
 
+### *D4Lab14 - Missing Sensitivity List  bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
 
+RTL Design
 
+```verilog
+module bad_mux (input i0 , input i1 , input sel , output reg y);
+always @ (sel)
+begin
+	if(sel)
+		y <= i1;
+	else 
+		y <= i0;
+end
+endmodule
+```
+RTL Simulation - Pre Synthesis Simulation
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_2026-10-04_22-22-09%20bad_mux%20gtk.png)
+GLS - Post Synthesis Simulation
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_2026-10-04_22-22-09%20bad_mux%20gtk%20GLS.png)
 
+Synthesized Schematic
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20152500%20D4Lab2%20Bad_mux%20synth.png)
 
+## Synthesis–Simulation Mismatch: Missing Sensitivity List
 
+In this case, the RTL simulation output waveform and the synthesized netlist gate-level simulation output waveform do not match.  
+This discrepancy arises due to the problem of a **missing sensitivity list**.
 
-  
+### What Happens in RTL Simulation
+- The `always` block is evaluated only when **`sel`** changes.  
+- It is **independent of changes in inputs (`i0`, `i1`)**.  
+- As a result, the output is not updated when inputs change.  
+- The simulator interprets this behavior as a **latch**, rather than a proper multiplexer.
 
+### Why This is a Problem
+- The synthesized netlist correctly infers a **mux**, but the RTL simulation infers a **latch**.  
+- This mismatch leads to **different waveforms** between RTL simulation and GLS.  
+- It highlights the importance of writing **complete sensitivity lists** in RTL code to avoid unintended latch inference.
 
-Now, take a look of below example of "bad_mux.v" :
-<img width="800" height="600" alt="bad_mux" src="https://github.com/user-attachments/assets/bd4895d2-d978-4d5a-be20-389edde10b18" />
+### Fixing the Missing Sensitivity List Problem
 
+To solve this issue, the `always` block should be written as:
 
-
-In this we can see that the  RTL simulation output waveform and synthesized netlist gate level simulation output waveform do not have similar waveform. This is the because of problem of "missing sensitivity list". 
-In the RTL simulation , we can see that always block is evaluated only when 'sel' is changing ans is independent of change in inputs(i0,i1). Thus as output is not evaluated for change in inputs, when we do RTL simulation ,simulator will infer the mux as latch. So this comes under problem of "missing sensitivity list".
-
-To solve this issue we can write always block as : always(*)
-So, always block will be evaluated when any if the inputs i0, i1, sel change.
-	
-But we can also see that when synthesis tool evaluate the same RTL code and the gate level simulation is done. 
-The output waveform shows the MUX behaviour. Thus systhesis tool has inferred the same code as mux.
-This is a problem of synthesis- simulation mismatch and that is the main reason to perform GLS.
-
-#### *****  Missing Sensitivity list  ******
-let us understand this with example 'ternary_operator_mux.v' and do RTL simulation , synthesis and gate-level simulation.
+```verilog
+always @(*)
+begin
+   // mux logic here
+end
 
 	
 ### 4.3.2 Blocking and Non-blocking assignments in verilog :
@@ -188,17 +210,7 @@ We can see the in the above case the RTL simulation, the latch behaviour is infe
 
 
 
-```verilog
-module bad_mux (input i0 , input i1 , input sel , output reg y);
-always @ (sel)
-begin
-	if(sel)
-		y <= i1;
-	else 
-		y <= i0;
-end
-endmodule
-```
+
 
 
 
