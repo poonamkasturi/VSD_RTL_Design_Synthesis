@@ -153,6 +153,9 @@ end
 endmodule
 ```
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-24-37%20comp_case%20gtk.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-27-45%20comp_case%20synth.png)
+
 ********************************
 ---
 
@@ -200,7 +203,7 @@ Impact of the incomplete case Assignment
 RTL Simulation - Pre Synthesis Simulation
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-31-47%20incomp_case%20gtk.png)
 
 <p></p>
 SYNTHESIZED SCHEMATIC
@@ -209,10 +212,8 @@ SYNTHESIZED SCHEMATIC
 #### ***Confirms Latch inferred for incomplete case assignment***
 - This matches the simulation behavior, reinforcing that the incomplete specification leads to unintended sequential elements.
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-33-24%20incomp_case%20synth.png)
 
-
-<img width="700" height="500" alt="incomp_case" src="https://github.com/user-attachments/assets/2fe6e035-1577-4d1b-8748-47a3709a8b91" />
 
 ### * *Partial case Assignment :* **************************************
 
@@ -249,7 +250,7 @@ Impact of Partial case Assignment
 
 #####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
 
-🔹 RTL Simulation Waveform Observation
+RTL Simulation Waveform Observation
 - 
 
 <p></p>
@@ -258,9 +259,9 @@ RTL Simulation - Pre Synthesis Simulation
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20171107%20D5Lab5%20partial_case%20gtk.png)
 
-<img width="700" height="500" alt="Partial_case_1" src="https://github.com/user-attachments/assets/1ef32b0d-72db-42c1-9c02-639d00d19d5c" />
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-37-10%20partial_case_assign%20gtk.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-38-04%20partial_case_assign%20gtk_expand.png)
 
-<img width="700" height="500" alt="Partial_case_2" src="https://github.com/user-attachments/assets/7e44dab6-65bb-44fa-9778-a023260f4f75" />
 
 <p></p>
 SYNTHESIZED SCHEMATIC
@@ -269,7 +270,7 @@ SYNTHESIZED SCHEMATIC
 #### ***Confirms that tool has inferred a latch for `x only` for partial case assignment***
 - This matches the simulation behavior, reinforcing that the partial specification leads to unintended sequential elements.
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-39-53%20partial_case_assign%20synth.png)
 
 		  
 ### * *Overlapping case Assignment :* **************************************
@@ -307,6 +308,8 @@ RTL Simulation - Pre Synthesis Simulation
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-42-47%20bad_case%20gtk.png)
+
 <p></p>
 SYNTHESIZED SCHEMATIC - NETLIST
 <p></p>
@@ -316,15 +319,14 @@ SYNTHESIZED SCHEMATIC - NETLIST
   
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20165255%20D5Lab4%20bad_case%20synth.png)
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-44-16%20bad_case%20synth.png)
+
 <p></p>
 GLS - POST SYNTHESIS
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-50-03%20bad_case%20gtk_GLS.png)
 
-<img width="700" height="500" alt="baad_case_1" src="https://github.com/user-attachments/assets/d7de6837-29b1-4136-8b46-494bc4f8817e" />
-
-<img width="700" height="500" alt="baad_case_2" src="https://github.com/user-attachments/assets/4b475e12-1972-4e8d-b729-c60d61bbf1f4" />
 
 **********************************************
 **********************************************
