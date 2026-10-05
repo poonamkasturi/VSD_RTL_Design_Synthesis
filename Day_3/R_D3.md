@@ -11,8 +11,15 @@
     - [Advanced Techniques](#advanced-techniques)
  - [3.4 Logic Optimizations with Yosys](#34-logic-optimizations-with-yosys)
     - [Combinational Logic Optimizations](#combinational-logic-optimizations)
+	    - **D3Lab6** - Optimize 2 i/p AND gate  (*opt_check.v*)
+	    - **D3Lab7** - Optimize 2 i/p OR gate  (*opt_check2.v*)
+	    - **D3Lab8** - Optimize 3 i/p AND gate  (*opt_check3.v*)
+	    - **D3Lab9** - Optimize 2 i/p XNOR gate  (*opt_check4.v*)
     - [Sequential Logic Optimizations](#sequential-logic-optimizations)
+	    - **D3Lab10** - Optimize DFF Asynchronous reset (*dff_const1.v*)
+	    - **D3Lab11** - Optimize DFF q set to 1 (*dff_const2.v*)
  - [3.5 Sequential Optimizations for Unused Outputs](#35-sequential-optimizations-for-unused-outputs)
+	 - **D3Lab12** - Optimize  of 3 bit counter  (*counter_opt.v*)
 
 
 ### 3.1 Introduction to Logic Optimization - Overview
