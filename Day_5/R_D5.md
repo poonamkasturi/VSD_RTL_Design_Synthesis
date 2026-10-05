@@ -3,9 +3,14 @@
 #### 🔰 TOPICS  EXPLORED    -----
 5.1 [CONDITIONAL statements](#CONDITIONAL-Statements) 
   * [if-eLse Statement](#If-Else-Statement)
+	* D5Lab16 - if-else ---incomplete if
+	* D5Lab17 - nested if-else ---incomplete if
   * [case Statement](#CASE-Statement)
+  	* D5Lab18 - complete case 
     * [Caveats with CASE statements](#Caveats-with-CASE-statements)
-
+	    * D5Lab18 - Incomplete case Assignment
+	    * D5Lab19 - Partial case Assignment
+	    * D5Lab20 - Overlapping case Assignment
 5.2 [LOOP Statements](#LOOP-Statements)
   * [for loop Statement](#For-loop-Statement)
   * [for generate Statement](#For-generate-Statement)
@@ -98,7 +103,7 @@ This behavior corresponds to a **latch** being inferred.
 
 #####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
 
-🔹 RTL Simulation Waveform Observation
+RTL Simulation Waveform Observation
 -	In the simulation, y updates correctly when i0 or i2 are active.
 -	But when both are inactive (0), y does not go to a defined value (like 0 or X).
 -	Instead, y holds its last value, which is exactly the behavior of a latch.
@@ -189,7 +194,7 @@ ___________________________________
 
 ### * *Incomplete case Assignment :*   ***************************************
 
-### *D5Lab19 - case - Incompletely Defined ---- incomp_case.v :  LATCH inferred* ......................  GTK SYNTH OUTPUTS REQUIRED
+### *D5Lab19 - case - Incompletely Defined ---- incomp_case.v :  LATCH inferred* ......................  
 
 RTL Design
 
@@ -213,11 +218,11 @@ Impact of the incomplete case Assignment
 - The synthesis tool interprets this as: *retain the previous value of `y`*.  
 - This behavior corresponds to a **latch** being inferred.
 
-#####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR - RTL ***
 
 RTL Simulation Waveform Observation
 - In RTL simulation, when `sel[1] = 1` (i.e., `sel = 10` or `11`), the output `y` does not change according to the inputs.  
-- Instead, `y` **holds its last value**, which is clear evidence of latch behavior.  
+- Instead, `y` **holds its last value** - latch behavior.  
 - The waveform confirms that the output is not updating as expected for these cases.
 
 #### *The simulated behaviour of the design - clear evidence of latch inference due to incomplete case assignment.*
@@ -270,7 +275,7 @@ Impact of Partial case Assignment
 - Meanwhile, the output **y** behaves as a proper **multiplexer**, which matches the intended design.  
 
 
-#####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR - RTL ***
 RTL Simulation Waveform Observation
 - Waveform shows that **x** infers a **latch** for `sel = 01`.  
 - Meanwhile, the output **y** behaves as a proper **multiplexer**, which matches the intended design.  
@@ -330,7 +335,7 @@ RTL Simulation - Pre Synthesis Simulation
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
 
 <p></p>
-GLS - POST SYNTHESIS
+GLS - Post Synthesis Simulation
 <p></p>
 
 ***- Gate-Level Simulation (GLS) shows the **correct output behavior** as expected.***
