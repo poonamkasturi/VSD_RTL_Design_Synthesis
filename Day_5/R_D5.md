@@ -3,21 +3,21 @@
 #### 🔰 TOPICS  EXPLORED    -----
 5.1 [CONDITIONAL statements](#CONDITIONAL-Statements) 
   * [if-eLse Statement](#If-Else-Statement)
-	* D5Lab16 - if-else ---incomplete if
-	* D5Lab17 - nested if-else ---incomplete if
+	* **D5Lab16** - if-else ---incomplete if (*incomp_if.v*)
+	* **D5Lab17** - nested if-else ---incomplete if (*incomp_if2.v*)
   * [case Statement](#CASE-Statement)
-  	* D5Lab18 - complete case 
+  	* **D5Lab18** - complete case (*comp_case.v*)
     * [Caveats with CASE statements](#Caveats-with-CASE-statements)
-	    * D5Lab19 - Incomplete case Assignment
-	    * D5Lab20 - Partial case Assignment
-	    * D5Lab21 - Overlapping case Assignment
+	    * **D5Lab19** - Incomplete case Assignment (*incomp_case.v*)
+	    * **D5Lab20** - Partial case Assignment  (*partial_case_assign.v*)
+	    * **D5Lab21** - Overlapping case Assignment  (*bad_case.v*)
 5.2 [LOOP Statements](#LOOP-Statements)
   * [for loop Statement](#For-loop-Statement)
-	  * D5Lab22 - for Loop 4x1 MUX
-	  * D5Lab23 - for Loop 1x8 DeMUX
-	  * D5Lab24 - case 1x8 DeMUX
+	  * **D5Lab22** - for Loop 4x1 MUX  (*mux_generate.v)
+	  * **D5Lab23** - for Loop 1x8 DeMUX (*demux_generate.v)
+	  * **D5Lab24** - case 1x8 DeMUX (*demux_case.v*)
   * [for generate Statement](#For-generate-Statement)
-	  * D5Lab25 - RCA 8bit
+	  * **D5Lab25** - RCA 8bit  (*rca.v*)
 
 ---
 ## 5.1 CONDITIONAL Statements ----------------------------
