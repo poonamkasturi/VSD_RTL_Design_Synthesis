@@ -606,7 +606,13 @@ RTL Simulation - Pre Synthesis Simulation
 GLS - Post Synthesis Simulation
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_19-09-52%20rca%20gtk_GLS.png)
+
+***Addition of 8 bit data***
+***Possibility 1 - carry out from the most significant bit is 0 ...........DATA represented in HEX notation*** 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_19-14-20%20rca%20gtk_GLS%20carry_0_Hex%20.png)
+
+
 
 <p></p>
 SYNTHESIZED SCHEMATIC
