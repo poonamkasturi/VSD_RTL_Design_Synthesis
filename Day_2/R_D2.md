@@ -8,25 +8,22 @@
 [RTL Design] → [Elaboration] → [dfflibmap 🧬] → [Synthesis 🛠️] → [Netlist Generation]
 _____________________________________________________
 
-### Topics Explored   
-
-2.1	 Sky130 PDK - Introduction to Timing (.lib) library 
-```
-- Library Naming Convention  
-- Liberty File (.lib)
-```     
-2.2  Hierarchical and Flat Synthesis
-```
-- Hierarchical Synthesis  
-- Flat Synthesis
-- Submodule Level Synthesis
- ```    
-2.3  Flip Flop Coding   
-```
-- Asynchronous Reset
-- Synchronous Reset
-```
-
+#### Topics Explored
+ - [2.1 sky130 PDK](#31-sky130-PDK)
+    - [Library Naming Convention](#Library-Naming-Convention)
+    - [Liberty File (.lib)](#Liberty-File-(.lib))
+ - [2.2 Hierarchical and Flat Synthesis](#32-Hierarchical-and-Flat-Synthesis)
+    - [Hierarchical Synthesis](#Hierarchical-Synthesis)
+	    - **D2Lab2** - Hierarchical Synthesis (*multiple_modules.v*)
+    - [Flat Synthesis](#Flat-Synthesis)
+	    - **D2Lab3** - Flattening Workflow (*multiple_modules.v*)
+    - [Submodule Level Synthesis](#Submodule-Level-Synthesis)
+	    - **D2Lab4** - Synthesizing sub_module1 (*multiple_modules.v*)
+ - [2.3 Flip Flop Coding](#33-Flip-Flop-Coding)
+    - [Asynchronous Reset](#Asynchronous-Reset)
+	    - **D2Lab5** - D FF (*dff_asyncres.v*)
+    - [Synchronous Reset](#Synchronous-Reset)
+ 
  
 ### 2.1 SKY130 PDK - Introduction to Timing (.lib) 
 
