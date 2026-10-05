@@ -474,7 +474,7 @@ GLS - Post Synthesis Simulation
 SYNTHESIZED SCHEMATIC
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20144716%20D5Lab8%20demux_generate%201x8%20synth%20w_purge.png)
 
 
 ### *D5Lab24 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... GLS NEEDED
