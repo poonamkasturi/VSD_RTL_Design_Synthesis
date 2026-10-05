@@ -83,8 +83,6 @@ The first day of the workshop covers the brief description of iverilog simulator
 
   Test bench doesn't have any primary inputs and primary outputs of its own.
 
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20131029%20Th%20D1_1.png)
-
 <img width="600" height="400" alt="Test1" src="https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20131029%20Th%20D1_1.png"/>
 
 
@@ -117,7 +115,7 @@ _____________________________________
 The iverilog simulator outputs a value chage dump (.vcd) file as output.
 This vcd file can be viewed using the GTKWave viewer tool.
 
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20130931%20Th%20D1_2.png)
+<img width="600" height="400" alt="Test1" src="https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_1/Assets/Screenshot%202026-09-30%20130931%20Th%20D1_2.png"/>
 ___________________________________________
 
 ### 1.3 Synthesis FLow - yosys
