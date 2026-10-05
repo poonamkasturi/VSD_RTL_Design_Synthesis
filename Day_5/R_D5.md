@@ -13,7 +13,11 @@
 	    * D5Lab21 - Overlapping case Assignment
 5.2 [LOOP Statements](#LOOP-Statements)
   * [for loop Statement](#For-loop-Statement)
+	  * D5Lab22 - for Loop 4x1 MUX
+	  * D5Lab23 - for Loop 1x8 DeMUX
+	  * D5Lab24 - case 1x8 DeMUX
   * [for generate Statement](#For-generate-Statement)
+	  * D5Lab25 - RCA 8bit
 
 ---
 ## 5.1 CONDITIONAL Statements ----------------------------
@@ -336,7 +340,7 @@ RTL Simulation Waveform Observation
 RTL Simulation - Pre Synthesis Simulation - "simulation - synthesis mismatch"
 <p></p>
 
-***- RTL Simulation (GLS) shows latching behaviour***
+***- RTL Simulation shows latching behaviour***
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
 
 <p></p>
@@ -351,7 +355,7 @@ GLS - Post Synthesis Simulation
 SYNTHESIZED SCHEMATIC 
 <p></p>
 
-##### *- From the synthesized schematic, we can see that **no latch is inferred** for the overlapping case.*  
+##### *- **no latch is inferred** for the overlapping case.*  
 NOTE : It is a bad coding style as **'simulation - synthesis mismatch'** happens.
   
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-44-16%20bad_case%20synth.png)
@@ -373,13 +377,15 @@ NOTE : It is a bad coding style as **'simulation - synthesis mismatch'** happens
  _______________________________________________
  _______________________________________________
 
-## 5.2 Loop Statements:
-### for loop :
+## 5.2 Loop Statements:--------------------
+_____________________________________________________
+
+### for loop :************************************************
 * It is used inside the 'always' block.
 * It is used for evaluating expressions.
 * For loop is not used for instantiating hardware, gates.
 
-### *D5Lab22 - for Loop  - ---- mux_generate.v :  4x1 MUX* ...................... GLS NEEDED
+### *D5Lab22 - for Loop  - ---- mux_generate.v :  4x1 MUX* ...................... 
 
 RTL Design
 ```verilog
@@ -423,7 +429,7 @@ RTL Simulation - Pre Synthesis Simulation
 GLS - Post Synthesis Simulation
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_17-39-08%20mux_generate%20gtk_GLS.png)
 
 <p></p>
 SYNTHESIZED SCHEMATIC 
@@ -432,12 +438,7 @@ SYNTHESIZED SCHEMATIC
 #### ***Confirms the inference of an INTENDED latch***
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175000%20D5Lab6%20mux_generate%20synth%20w_purge.png)
 
-
-<img width="700" height="500" alt="For_loop_1" src="https://github.com/user-attachments/assets/2d80a14c-309f-4c13-bf1f-f9801f9f6558" />
-
-<img width="700" height="500" alt="For_loop_2" src="https://github.com/user-attachments/assets/fee7a077-dfbd-41f7-a190-ddc29763f3a9" />
-
-### *D5Lab23 - for Loop  - ---- demux_generate.v :  1x8 DEMUX* ...................... GLS NEEDED
+### *D5Lab23 - for Loop  - ---- demux_generate.v :  1x8 DEMUX* ...................... 
 
 RTL Design
 
@@ -468,16 +469,21 @@ RTL Simulation - Pre Synthesis Simulation
 GLS - Post Synthesis Simulation
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_17-53-04%20demux_generate%20gtk_GLS.png)
 
 <p></p>
 SYNTHESIZED SCHEMATIC
 <p></p>
 
+#### ***Comparison of the Synthesized schematics with and without optimization Confirms the removal of unnecessary and internal logic***
+**Synthesized schematic without optimization**
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20144859%20D5Lab8%20demux_generate%201x8%20synth%20wo_purge.png)
+
+**Synthesized schematic with optimization  `opt_clean -purge`**
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20144716%20D5Lab8%20demux_generate%201x8%20synth%20w_purge.png)
 
 
-### *D5Lab24 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... GLS NEEDED
+### *D5Lab24 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... 
 
 RTL Design
 
@@ -508,7 +514,93 @@ endmodule
 RTL Simulation - Pre Synthesis Simulation
 <p></p>
 
-![]()
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175506%20D5Lab7%20demux_case%20gtk.png)
+
+<p></p>
+GLS - Post Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_17-49-12%20demux_case%20gtk_GLS.png)
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+#### ***Comparison of the Synthesized schematics with and without optimization Confirms the removal of unnecessary and internal logic***
+**Synthesized schematic without optimization**
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175828%20D5Lab7%20demux_case%20synth%20wo_purge.png)
+
+**Synthesized schematic with optimization  `opt_clean -purge`**
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175623%20D5Lab7%20demux_case%20synth%20w_purge.png)
+
+#### *NOTE: It is observed from D5Lab23 and D5Lab24 - the functionality as well as Synthesized Design (netlist) achieved with both `for` loop and `case` construct are identical
+
+### for-generate :***************************************
+* It is used outside the 'always' block.
+* It can not be used inside 'always' block.		  
+* It is used for instantiating hardware multiple times.
+
+### *D5Lab25 - for-generate  - ---- rca.v :  8 bit Ripple Carry Adder* ...................... GLS NEEDED
+
+RTL Design
+
+```verilog
+module rca (input [7:0] num1 , input [7:0] num2 , output [8:0] sum);
+wire [7:0] int_sum;
+wire [7:0] int_co;
+
+genvar i;
+generate
+	for (i = 1 ; i < 8; i=i+1) begin
+		fa u_fa_1 (.a(num1[i]),.b(num2[i]),.c(int_co[i-1]),.co(int_co[i]),.sum(int_sum[i]));
+	end
+
+endgenerate
+fa u_fa_0 (.a(num1[0]),.b(num2[0]),.c(1'b0),.co(int_co[0]),.sum(int_sum[0]));
+
+assign sum[7:0] = int_sum;
+assign sum[8] = int_co[7];
+endmodule
+```
+
+***1 bit Full Adder module instantiated in 8 bit RCA***
+
+```verilog
+module fa (input a , input b , input c, output co , output sum);
+	assign {co,sum}  = a + b + c ;
+endmodule
+```
+
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
+Impact of for-generate construct
+- The `for-generate` statement allows easy **replication of hardware structures**.  
+- When the same hardware needs to be repeated many times, `for-generate` avoids the **cumbersome manual instantiation** for large designs. 
+
+##### *****   Advantage of for-generate construct   *****
+- **Scalability:** Simply change the **bus size** and the **loop count** to build larger adders.  
+- **Maintainability:** Code remains concise and easy to modify.  
+- **Efficiency:** Reduces repetitive coding and potential errors.
+
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR - RTL and GLS ***
+- The RTL functional simulation and the synthesized netlist GLS show **similar output behavior**, confirming correctness.  
+- The code implements an **8-bit ripple carry adder** using the `for-generate` construct.
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20145317%20D5Lab9%20rca%20gtk.png)
+
+***Addition of 8 bit data***
+***Possibility 1 - carry out from the most significant bit is 0 ...........DATA represented in HEX notation*** 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20151429%20D5Lab9%20rca%20gtk%20carry_0_Hex.png)
+
+***Possibility 2 - carry out from the most significant bit is 1 ...........DATA represented in HEX notation*** 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20151614%20D5Lab9%20rca%20gtk%20carry_1_Hex.png)
+
+***Possibility 2 - carry out from the most significant bit is 1 ...........DATA represented in DECIMAL notation*** 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20151657%20D5Lab9%20rca%20gtk%20carry_1_Decimal.png)
+
 
 <p></p>
 GLS - Post Synthesis Simulation
@@ -520,64 +612,41 @@ GLS - Post Synthesis Simulation
 SYNTHESIZED SCHEMATIC
 <p></p>
 
-![]()
+***RCA - schematic with instantiated blocks of fa*** ..............................................
 
-		  
-### for generate :
-* It is used outside the 'always' block.
-* It can not be used inside 'always' block.		  
-* It is used for instantiating hardware multiple times.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20152427%20D5Lab9%20rca%20synth_rca.png)
 
-lets understand this with example "rca.v": 		  
+***fa - schematic of the block instantiated in the top module***................................................
 
-<img width="700" height="500" alt="Generate_1" src="https://github.com/user-attachments/assets/1507027c-e2d3-4a82-9ca7-da05ab3d02bd" />
-
-<img width="700" height="500" alt="Generate_2" src="https://github.com/user-attachments/assets/69b8061a-893f-44d0-bbd1-458cbfb0f3ce" />
-
-<img width="700" height="500" alt="Generate_3" src="https://github.com/user-attachments/assets/c40e4d7c-6db3-4b6c-8280-2881cb53f4bf" />
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20152529%20D5Lab9%20rca%20synth_fa.png)
 
 
-The above images shows that the ouput waveform for RTL code functional simulation and synthesized netlist GLS show similar behaviour. Here the code has implemented 8-bit ripple carry adder using "for-generate" statement. Using "for-generate" helps us to replicate the hardware easily when we need same hardware to repeat large number of times, else we have to instantiate each hardware individually which will be cumbersome unlike number of times the hardware replication is required is small.
 
-```verilog
-module rca (input [7:0] num1 , input [7:0] num2 , output [8:0] sum);
-wire [7:0] int_sum;
-wire [7:0]int_co;
-
-genvar i;
-generate
-	for (i = 1 ; i < 8; i=i+1) begin
-		fa u_fa_1 (.a(num1[i]),.b(num2[i]),.c(int_co[i-1]),.co(int_co[i]),.sum(int_sum[i]));
-	end
-
-endgenerate
-fa u_fa_0 (.a(num1[0]),.b(num2[0]),.c(1'b0),.co(int_co[0]),.sum(int_sum[0]));
-
-
-assign sum[7:0] = int_sum;
-assign sum[8] = int_co[7];
-endmodule
+Commands used 
+```
+$ yosys
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> read_verilog rca.v fa.v ................... INSTANTIATED MODULE ALSO NEEDS TO BE READ
+yosys> synth -top rca ............................ To synthesize only the TOP module needs to be specified
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+yosys> show rca   ................................  will show the specified module (Top Module rca) with instantiated modules as blocks in Graphviz window
+yosys> show fa    ................................  will show the specified module (only the instantiated module fa) in Graphviz window
 ```
 
-```verilog
-module fa (input a , input b , input c, output co , output sum);
-	assign {co,sum}  = a + b + c ;
-endmodule
-```
+##### POINTS WORTH NOTING
+-	INSTANTIATED MODULE ALSO NEEDS TO BE READ
+-	only the TOP module needs to be specified for synthesis 
+-	Specific module name needs to be mentioned to show it in the graphviz window
 
 
-      *******************************
-      ********************************
-      *********************************
-      Use non-blocking assignments (<=) inside clocked blocks for sequential logic.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20152735%20D5Lab9%20terminal1.png)
 
-For combinational blocks, always use always @(*) to ensure sensitivity to all inputs.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20152851%20D5Lab9%20terminal2.png)
 
-	🔹 Common Pitfalls
-Missing sensitivity list → causes mismatches between RTL simulation and synthesized hardware.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20153013%20D5Lab9%20terminal3.png)
 
-Blocking assignments (=) in sequential logic → may cause simulation mismatches.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20153116%20D5Lab9%20terminal4%20show-rca.png)
 
-Uncovered conditions → synthesis infers latches if outputs are not assigned in all paths.
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20153219%20D5Lab9%20terminal4%20show-fa.png)
 
 
