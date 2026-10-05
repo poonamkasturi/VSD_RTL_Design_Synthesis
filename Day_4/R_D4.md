@@ -11,7 +11,7 @@
 
 The term "gate level" refers to the netlist view of a circuit, usually produced by logic synthesis.
 
-#### Gate Level Simulation (GLS)?
+#### Gate Level Simulation (GLS)
 - Simulation performed on the **synthesized netlist** of a design is referred to as **Gate-level Simulation (GLS)**.  
 - RTL simulation is **pre-synthesis**, while GLS is **post-synthesis**.  
 - The netlist view consists of gates and IP models with complete functional and timing behavior.  
@@ -27,7 +27,7 @@ The term "gate level" refers to the netlist view of a circuit, usually produced 
   - Design-for-Test (DFT) insertion at gate level  
   - Power-aware verification requirements  
 
-#### Purposes of GLS
+#### Purpose of GLS
 - **Logical correctness verification** after synthesis.  
 - **Timing validation** of the design.  
   - For timing checks, GLS must run with **delay annotation** (timing-aware GLS).  
@@ -78,11 +78,25 @@ $ iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_f
 $ ./a.out
 $ gtkwave tb_ternary_operator_mux_net.vcd	
 ```
+
+`../my_lib/verilog_model/primitives.v` .......................  
+Contains basic primitive definitions (AND, OR, NOT, etc.) used by the standard cell library.
+
+`../my_lib/verilog_model/sky130_fd_sc_hd.v` ..................  
+The Sky130 standard cell library model. Defines how synthesized cells (flip-flops, muxes, etc.) behave in simulation.
+
+`ternary_operator_mux_net.v` ................................  
+The synthesized netlist of the design (ternary operator mux). This is the netlist obtained from ABC tool and is now the Design Under Test (DUT) for GLS.
+
+`tb_ternary_operator_mux.v` ................................  
+The testbench that applies inputs and checks outputs. Same as the one used for RTL simulation
+
+
 RTL DESIGN
 ```verilog
 module ternary_operator_mux (input i0 , input i1 , input sel , output y);
 	assign y = sel?i1:i0;
-	endmodule
+endmodule
 ```
 <p></p>
 RTL Simulation - Pre Synthesis Simulation
@@ -96,7 +110,7 @@ GLS - Post Synthesis Simulation
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20151530%20%20D4Lab1%2021mux%20GLS%20gtk.png)
 
-**The close match between RTL and GLS waveforms confirms that the synthesized netlist conforms to the intended RTL functionality.**
+### The close match between RTL and GLS waveforms confirms that the synthesized netlist conforms to the intended RTL functionality..............
 
 <p></p>
 Synthesized Schematic
@@ -104,9 +118,10 @@ Synthesized Schematic
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20150342%20D4Lab1%2021mux%20synth.png)
 
-
+---
 
 ### 4.3 Synthesis-Simulation Mismatch :
+____________________________
 
 If GLS waveforms do not match with the RTL simulation waveforms, it points to potentially hidden **synthesis–simulation mismatches**. 
 These mismatches can arise from 
@@ -115,6 +130,9 @@ These mismatches can arise from
 - **Blocking vs. Non-Blocking assignments** - Incorrect usage of `=` (blocking) vs. `<=` (non-blocking) 
 
 - **Non-standard Verilog coding** - Constructs outside synthesizable Verilog or poor coding practices can cause discrepancies between RTL simulation and gate-level behavior.  
+
+
+### Missing Sensitivity List : **********************
 
 ### *D4Lab14 - Missing Sensitivity List *** bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
 
@@ -143,25 +161,26 @@ GLS - Post Synthesis Simulation
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot_bad_mux%20gtk%20GLS.png)
 
-#### OBSERVATIONS: RTL simulation output waveform and the GLS waveform do not match.  
+#### OBSERVATIONS: RTL simulation output waveform and the GLS waveform do `NOT match`.  
 
-#### RTL Simulation
-- The `always` block is evaluated only when **`sel`** changes.  
+#### *****************     EXPLANATION for MISMATCH    ***************************
+
+##### RTL Simulation ------------------
+- The `always` block is evaluated only when a change happens on **`sel`** input.  
 - It is **independent of changes in inputs (`i0`, `i1`)**.  
-- As a result, the output is not updated when inputs change.  
-- The simulator interprets this behavior as a **latch**, rather than a proper multiplexer.
+- As a result, the output is not updated when inputs i0 or i1 change.  
+- The simulator interprets this behavior as a **latch**, rather than a multiplexer as intended in the RTL Design.
 
-#### GLS Simulation
+##### GLS Simulation -----------------
 - The synthesized netlist correctly infers a **mux**
 
-#### HIDDEN ISSUE
-- GLS infers  **mux** but RTL simulation infers a **latch**.  
-- This mismatch leads to **different waveforms** between RTL simulation and GLS.
+#### *****************     CONFLICT and CAUSE of Conflict   ***********************
+- GLS infers  **mux** ------------------------------- RTL simulation infers a **latch**.  
+- **REASON: missing sensitivity list**. - incomplete sensitivity list in the always block
 
-#### REASON: **missing sensitivity list**.
-
-#### Fixing the Missing Sensitivity List Problem
+#### ****************   Fixing the Missing Sensitivity List Problem   **************
 It is important to write **complete sensitivity lists** in RTL code to avoid unintended latch inference.
+
 `always` block should be written as:
 
 ```verilog
@@ -179,69 +198,36 @@ Synthesized Schematic
 
 ___________________________________________________________________________
 
-### 4.3.2 Blocking and Non-blocking assignments in verilog :
+### Blocking and Non-blocking assignments in verilog : **********************
 Blocking and Non-blocking statements come into picture when we are using "always" block. 
 
-**Blocking statements** : 
-* Inside always block , if we are using "equal to "(=) to make assignments, the assignment is called as blocking statement.
-* Blocking statements execute the statements in the sam eorder they are written.
-* So the first statement is evaluated first ,then second and so on. Thus behaviour of such statements is sequential.
+**Blocking statements (=)** : 
+* Suitable for: Combinational Logic
+* Execution of blocking statements is sequential.
+* Syntax: =
+
+**Non-Blocking statements (<=)**: 
+* Suitable for: Sequential logic
+* When entered in always block, it executes all the RHS in parallel 
+* Assignment to LHS is scheduled at the end of the time step.
+* Execution: Scheduled, executes concurrently at the end of the time step.
+* So, order of statements does not matter.
+* Syntax: <=				   
+
+#### Blocking vs. Non-Blocking Assignments
+
+| Aspect                          | Blocking (`=`)                           | Non-Blocking (`<=`)                       |
+|---------------------------------|------------------------------------------|-------------------------------------------|
+| Operator                        |  `=`                                     |  `<=`                                     |
+| Execution Style                 | Sequential, immediate execution          | Concurrent, scheduled at end of timestep  |
+| Update Behavior (Assign)        | Instantly in code order                  | At the end of time step                   |
+| Usage                           | Combinational logic, temp variables      | Sequential logic, registers/flip-flops    |
+| Hardware Inference              | Infers gates                             | Infers flip-flops                         |
 
 
-**Non-Blocking statements** : 
-* Inside always block, the non- blocking assignment is done using "less than equal to"(<=).
-* It executes all the RHS when entered in always block and assign it to LHS.
-* All the statements are evaluated in parallel, so their order does not matter.
-* Thus, the evaluation of staements is done parallely.									   
-	
-**Caveats with Blocking Statements** :
-lets understand the cavest in blocking statements using an example :	
+**Synthesis–Simulation Mismatch: Blocking Assignments** :
 
-<img width="800" height="600" alt="cavet_blocking" src="https://github.com/user-attachments/assets/140367e0-5ebc-4bde-bbd9-5720f5db5e86" />
-
-
-											 
-We can see the in the above case the RTL simulation, the latch behaviour is inferred by simulator. This is because the assignmenst are blocking assignment. Thus first value of 'd' is evaluated which will use old value of 'x' as the value of 'x' is evaluated after the first statement.
-
-****************************************************************************************************************
-****************************************************************************************************************
-
-
-
-
-
-
-
-
-
-<img width="800" height="600" alt="good_mux" src="https://github.com/user-attachments/assets/7484fc86-2215-444a-b8f9-8318ccd02061" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### *D4Lab15 - Caveat in Blocking Statements   *** blocking_caveat.v : Latch behaviour inferred* -----------
 
 ```verilog
 module blocking_caveat (input a , input b , input  c, output reg d); 
@@ -253,8 +239,28 @@ begin
 end
 endmodule
 ```
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20154947%20D4Lab3%20blocking_caveat%20gtk.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20155618%20D4Lab3%20blocking_caveat%20gtk_expand.png)
 
+#### OBSERVATIONs:
+In the above case, the RTL simulation shows **latch-like behavior** being inferred.  
+This occurs because the assignments inside the `always` block are **blocking assignments (`=`)**.
+
+##### What’s Happening?
+- The order of assignments causes **`d` to use the old value of `x`**, not the newly computed one.  
+- Since `x` is updated only in the subsequent statement, the first assignment evaluates with stale data.  
+- This results in incorrect simulation behavior **NOT** reflecting the **intended logic**.
+- Consequently, the simulator infers **UNINTENDED latch behavior**.
+
+```
+- As blocking assignments execute sequentially, they can lead to mismatches between RTL simulation and synthesized hardware. 
+```
+
+**MODIFIED RTL Design -**
 
 ```verilog
 module blocking_caveat_M (input a , input b , input  c, output reg d); 
@@ -268,40 +274,23 @@ end
 endmodule
 
 ```
+<p></p>
+RTL Simulation - Pre SYnthesis
+<p></p>
 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20160308%20D4Lab3%20blocking_caveat_M%20gtk_expand.png)
 
-TO CHECK BAD COUNTER FOR DAY 3********************
+<p></p>
+GLS - Post Synthesis
+<p></p>
 
-```verilog
-module bad_counter (input clk , input reset , output reg [1:0] cnt);
-wire res_int;
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20160923%20D4Lab3%20blocking_caveat_M%20gtk%20GLS.png)
 
-assign res_int = (cnt == 2'b11) | reset;
+<p></p>
+Synthesized Schematic
+<p></p>
 
-always @(posedge clk , posedge res_int)
-begin
-	if(res_int)
-		cnt <= 2'b00;
-	else
-		cnt <= cnt+1;
-end
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_4/Assets_D4/Screenshot%202026-10-01%20160605%20D4Lab3%20blocking_caveat_M%20synth.png)
 
-
-
-endmodule
-
-```
-
-
-
-
-```verilog
-
-```
-
-
-
-
-```verilog
-
-```
+****************************************************************************************************************
+****************************************************************************************************************
