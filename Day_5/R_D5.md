@@ -192,7 +192,7 @@ Impact of the incomplete case Assignment
 
 #####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
 
-🔹 RTL Simulation Waveform Observation
+RTL Simulation Waveform Observation
 - In RTL simulation, when `sel[1] = 1` (i.e., `sel = 10` or `11`), the output `y` does not change according to the inputs.  
 - Instead, `y` **holds its last value**, which is clear evidence of latch behavior.  
 - The waveform confirms that the output is not updating as expected for these cases.
@@ -249,7 +249,6 @@ Impact of Partial case Assignment
 - Thus, latching behavior is inferred **only** for **x**, **not** for **y**.
 
 #####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
-
 RTL Simulation Waveform Observation
 - 
 
@@ -257,7 +256,6 @@ RTL Simulation Waveform Observation
 RTL Simulation - Pre Synthesis Simulation
 <p></p>
 
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20171107%20D5Lab5%20partial_case%20gtk.png)
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-37-10%20partial_case_assign%20gtk.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-38-04%20partial_case_assign%20gtk_expand.png)
@@ -308,8 +306,6 @@ RTL Simulation - Pre Synthesis Simulation
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
 
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-42-47%20bad_case%20gtk.png)
-
 <p></p>
 SYNTHESIZED SCHEMATIC - NETLIST
 <p></p>
@@ -317,8 +313,6 @@ SYNTHESIZED SCHEMATIC - NETLIST
 ##### - From the synthesized netlist, we can see that **no latch is inferred** for the overlapping case.  
 - Gate-Level Simulation (GLS) shows the **correct output behavior** as expected.
   
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20165255%20D5Lab4%20bad_case%20synth.png)
-
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-44-16%20bad_case%20synth.png)
 
 <p></p>
