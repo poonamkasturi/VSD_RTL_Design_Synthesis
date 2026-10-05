@@ -56,10 +56,8 @@ RTL Simulation - Pre Synthesis Simulation
 ***This is unintended, because the designer meant to create a combinational circuit, not a sequential element.***
 
 Due to bad coding style (incomplete if statement), synthesis tool infers a latch.
-> In a true combinational circuit, latches should never be inferred.
 
 BEST PRACTICE : Always provide a complete assignment for all conditions - include an else or default assignment to avoid latch inference.
-Avoid deep `if` nesting; use case statements for cleaner parallel logic.
 
 ---
 
@@ -71,7 +69,7 @@ SYNTHEZED SCHEMATIC :
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20163317%20D5Lab1%20incomp_if%20synth.png)
 
-### *D5Lab17 - Incomplete if statement ---- incomp_if2.v : UNINTENDED LATCH Inference* ...................... 
+### *D5Lab17 - Nested if-else - incomplete if statement ---- incomp_if2.v : UNINTENDED LATCH Inference* ...................... 
 
 RTL DESIGN
 
@@ -87,60 +85,60 @@ begin
 end
 endmodule
 ```
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
 
+Impact of the Incomplete if Statement
+-	When i0 = 1, the output y follows i1.
+-	When i0 = 0 and i2 = 1, the output y follows i3.
+-	When i0 = 0 and i2 = 0, there is no assignment to y.
+-	No Assignment to y for all other possible combinations of values of i0, i1, i2 and i3
 
-![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20163543%20D5Lab2%20incomp_if2%20gtk.png)
+The tool interprets this as: **retain the previous value of y**............
+This behavior corresponds to a **latch** being inferred.
+
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
+
+🔹 RTL Simulation Waveform Observation
+-	In the simulation, y updates correctly when i0 or i2 are active.
+-	But when both are inactive (0), y does not go to a defined value (like 0 or X).
+-	Instead, y holds its last value, which is exactly the behavior of a latch.
+
+#### *The simulated behaviour of the design - clear evidence of latch inference due to incomplete if.*
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20163602%20D5Lab2%20incomp_if2%20gtk_expand.png)
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+#### ***Confirms Latch inferred***
+
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20163730%20D5Lab2%20incomp_if2%20synth.png)
+
+
+________________________________________________________
 		  
-## 5.2 CASE statements
-The case statement checks if the given expression matches one of the expressions in the list and branches accordingly. It typically infers MUX. In comparison to if statement, if there are many conditions to check ."if-else " construct may not be suitable and would synthesize the priority encoder instead of multiplexer. Thus, when large number conditions are required to check "case" is better option to choose.
+### case Statement   *****************************************
 
-### 5.2.1 Caveats with CASE statements:
-* Incomplete case statement :
-lets understand this caveat with exmaple "incomp_case.v".
+- The `case` statement checks if the given expression matches one of the listed values.  
+- It branches accordingly and typically infers a **multiplexer (MUX)**.  
+- Best suited when multiple conditions are **mutually exclusive** and parallel.
 
-<img width="700" height="500" alt="incomp_case" src="https://github.com/user-attachments/assets/2fe6e035-1577-4d1b-8748-47a3709a8b91" />
+#### COMPARISON BETWEEN if-else and case CONSTRUCTS
+______________________________________________________________
 
+| Feature | ``if-else`` (Priority Logic) | ``case`` (Parallel Logic) |
+| --- | --- | --- |
+| Hardware mapping | Priority-encoded mux chain | Parallel mux structure |
+| Best for | Conditions with hierarchy | FSMs, opcode decoding |
+| Risk | Deep chains → timing issues | Cleaner timing, less nesting |
+| Example | Priority encoder | ALU operation selector |
 
-
-From the above image, we can see that all the possible cases for 2-bit 'sel' is not defined in RTL code, that shows incomplete case statement. Beacuse of this ,the output will infer latch in case when sel = 10, 11. So, we can also say when sel[1] is 1, there will be latching action which can be seen from RTL code simulation waveform. The output 'y' is not changing in accordance to input for sel= 10, 11. 
-From the synthesized netlist also, we can find out that the synthesizer has inferred latch for the RTL code.
-
-To avoid inferring latches with case, use case statements with 'default' case in the code, which will cover all other cases not mentioned in case statement. However, using defalut case would not always avoid inferring latch in case of 'partial assignment cases'.
-		  
-		  
-* Partial case assignment :		  
-lets understand this caveat with exmaple "partial_case_assign.v".
-
-<img width="700" height="500" alt="Partial_case_1" src="https://github.com/user-attachments/assets/1ef32b0d-72db-42c1-9c02-639d00d19d5c" />
-
-<img width="700" height="500" alt="Partial_case_2" src="https://github.com/user-attachments/assets/7e44dab6-65bb-44fa-9778-a023260f4f75" />
-
-
-
-
-
-From the RTL code , we can find out that the output 'x' is not assigned any value for sel = 01 and from the simulation we can figure out that the output waveform of 'x' is inferring latch for sel = 01. While output 'y' is inferring mux which is expected as per code. Thus a latching behaviour is inferred for output 'x' only.
-
-From the synthesized netlist also we can see that synthezier has inferred latch for output 'x' only. 
-To avoid inferrin latches in such cases, assign all the outputs in all the segments of case statements.
-		  
-* Overlapping case assignment :
-lets understand this caveat with exmaple "bad_case.v".
-
-<img width="700" height="500" alt="baad_case_1" src="https://github.com/user-attachments/assets/d7de6837-29b1-4136-8b46-494bc4f8817e" />
-
-<img width="700" height="500" alt="baad_case_2" src="https://github.com/user-attachments/assets/4b475e12-1972-4e8d-b729-c60d61bbf1f4" />
-
-
-
-
-From the RTL code, we can see that last case statement has condition ```sel= 2'b1? ```. This case is overlapping case ``` sel = 2'b10 ```. Thus this cse confuses the simulator causing the synthesis-simulation mismatch. This create overlapping case and different simulator shows different behaviour for such case. The tool will give unpredictable ouput for overlapping case statements.
-
-From the synthesized netlist, we can find out that no latch is inferred for overlapping case and the GLS shows correct output behaviour as expected.
-Thus overlapping case statements create synthesis-simulation mismatch and to avoid this , all the statements of case statement should be mutually exclusive which is a correct way of coding.
-
+### *D5Lab18 - case - Completely Defined ---- comp_case.v : MUX Inferred* ......................   GTK SYNTH OUTPUTS REQUIRED
 
 ```verilog
 module comp_case (input i0 , input i1 , input i2 , input [1:0] sel, output reg y);
@@ -155,6 +153,21 @@ end
 endmodule
 ```
 
+********************************
+---
+
+### Caveats with CASE statements:
+	- Incomplete case Assignment
+	- Partial case Assignment
+	- Overlapping case Assignment
+___________________________________
+
+### * *Incomplete case Assignment :*   ***************************************
+
+### *D5Lab19 - case - Incompletely Defined ---- incomp_case.v :  LATCH inferred* ......................  GTK SYNTH OUTPUTS REQUIRED
+
+RTL Design
+
 ```verilog
 module incomp_case (input i0 , input i1 , input i2 , input [1:0] sel, output reg y);
 always @ (*)
@@ -166,22 +179,46 @@ begin
 end
 endmodule
 ```
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
 
-```verilog
-module bad_case (input i0 , input i1, input i2, input i3 , input [1:0] sel, output reg y);
-always @(*)
-begin
-	case(sel)
-		2'b00: y = i0;
-		2'b01: y = i1;
-		2'b10: y = i2;
-		2'b1?: y = i3;
-		//2'b11: y = i3;
-	endcase
-end
+Impact of the incomplete case Assignment
+- In the RTL code, not all possible cases for the 2‑bit `sel` are defined.  
+- Specifically, when `sel = 10` or `sel = 11`, the output `y` is left **undefined**.  
+- The synthesis tool interprets this as: *retain the previous value of `y`*.  
+- This behavior corresponds to a **latch** being inferred.
 
-endmodule
-```
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
+
+🔹 RTL Simulation Waveform Observation
+- In RTL simulation, when `sel[1] = 1` (i.e., `sel = 10` or `11`), the output `y` does not change according to the inputs.  
+- Instead, `y` **holds its last value**, which is clear evidence of latch behavior.  
+- The waveform confirms that the output is not updating as expected for these cases.
+
+#### *The simulated behaviour of the design - clear evidence of latch inference due to incomplete case.*
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![]()
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+#### ***Confirms Latch inferred for incomplete case assignment***
+- This matches the simulation behavior, reinforcing that the incomplete specification leads to unintended sequential elements.
+
+![]()
+
+
+<img width="700" height="500" alt="incomp_case" src="https://github.com/user-attachments/assets/2fe6e035-1577-4d1b-8748-47a3709a8b91" />
+
+### * *Partial case Assignment :* **************************************
+
+### *D5Lab20 - case - Partially Defined ---- partial_case.v :  LATCH inferred* ......................  SYNTH OUTPUTS REQUIRED
+
+RTL Design
 
 ```verilog
 module partial_case_assign (input i0 , input i1 , input i2 , input [1:0] sel, output reg y , output reg x);
@@ -201,6 +238,137 @@ begin
 end
 endmodule
 ```
+
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
+
+Impact of Partial case Assignment
+- From the RTL code, the output **x** is not assigned any value when `sel = 01`.  
+- In simulation, the waveform shows that **x** infers a **latch** for `sel = 01`.  
+- Meanwhile, the output **y** behaves as a proper **multiplexer**, which matches the intended design.  
+- Thus, latching behavior is inferred **only** for **x**, **not** for **y**.
+
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR  ***
+
+🔹 RTL Simulation Waveform Observation
+- 
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20171107%20D5Lab5%20partial_case%20gtk.png)
+
+<img width="700" height="500" alt="Partial_case_1" src="https://github.com/user-attachments/assets/1ef32b0d-72db-42c1-9c02-639d00d19d5c" />
+
+<img width="700" height="500" alt="Partial_case_2" src="https://github.com/user-attachments/assets/7e44dab6-65bb-44fa-9778-a023260f4f75" />
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+#### ***Confirms that tool has inferred a latch for `x only` for partial case assignment***
+- This matches the simulation behavior, reinforcing that the partial specification leads to unintended sequential elements.
+
+![]()
+
+		  
+### * *Overlapping case Assignment :* **************************************
+
+### *D5Lab21 - case - Overlapping ---- bad_case.v :  LATCH inferred* ......................  
+
+RTL Design
+
+```verilog
+module bad_case (input i0 , input i1, input i2, input i3 , input [1:0] sel, output reg y);
+always @(*)
+begin
+	case(sel)
+		2'b00: y = i0;
+		2'b01: y = i1;
+		2'b10: y = i2;
+		2'b1?: y = i3;
+		//2'b11: y = i3;
+	endcase
+end
+
+endmodule
+```
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
+
+Impact of Partial case Assignment
+- In the RTL code, the last case statement uses the condition **sel = 2'b1?**.  
+- This overlaps with the case **sel = 2'b10**.  
+- Such overlapping cases confuse the simulator, leading to **synthesis–simulation mismatch** 
+- Different simulators may show different behavior for overlapping cases, resulting in **unpredictable outputs**.
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
+
+<p></p>
+SYNTHESIZED SCHEMATIC - NETLIST
+<p></p>
+
+##### - From the synthesized netlist, we can see that **no latch is inferred** for the overlapping case.  
+- Gate-Level Simulation (GLS) shows the **correct output behavior** as expected.
+  
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20165255%20D5Lab4%20bad_case%20synth.png)
+
+<p></p>
+GLS - POST SYNTHESIS
+<p></p>
+
+![]()
+
+<img width="700" height="500" alt="baad_case_1" src="https://github.com/user-attachments/assets/d7de6837-29b1-4136-8b46-494bc4f8817e" />
+
+<img width="700" height="500" alt="baad_case_2" src="https://github.com/user-attachments/assets/4b475e12-1972-4e8d-b729-c60d61bbf1f4" />
+
+**********************************************
+**********************************************
+
+> In a true combinational circuit, latches should never be inferred.
+---
+#### *Key Insight - Combinational circuits must define outputs for all input conditions.*
+---
+### 🔹 Best Practice
+- For a **large number of conditions**, prefer `case` over `if-else`.  
+- `case` produces cleaner parallel logic, while `if-else` can lead to deeper chains and timing issues.  
+
+### 🔹 Summary
+- **`if-else` → Priority logic (priority encoder)**  
+- **`case` → Parallel logic (multiplexer)**
+
+Avoid deep `if` nesting; use case statements for cleaner parallel logic.
+To avoid inferring latches with case, use case statements with 'default' case in the code, which will cover all other cases not mentioned in case statement. However, using defalut case would not always avoid inferring latch in case of 'partial assignment cases'.
+
+Thus overlapping case statements create synthesis-simulation mismatch
+To avoid this, all the conditional statements of case construct should be mutually exclusive which is a correct way of coding.
+
+### Best Practice partial case
+To avoid inferring latches in such cases, always assign **all outputs in all segments** of the case statement:
+  *********************************************************************
+  *********************************************************************
+
+## 5.3 For loop and For generate constructs :
+### 5.3.1 For loop :
+* It is used inside the 'always' block.
+* It is used for evaluating expressions.
+* For loop is not used for instantiating hardware, gates.
+
+lets understand this with example "mux_generate.v": 
+
+<img width="700" height="500" alt="For_loop_1" src="https://github.com/user-attachments/assets/2d80a14c-309f-4c13-bf1f-f9801f9f6558" />
+
+<img width="700" height="500" alt="For_loop_2" src="https://github.com/user-attachments/assets/fee7a077-dfbd-41f7-a190-ddc29763f3a9" />
+
+
+
+
+we can see that the ouput waveform for RTL code functional simulation and synthesized netlist GLS are same. This is implemetation of small size mux, but we can make large size mux simply using same code except that we only need to change the input bus size and number fo times loop runs.	If we use 'case' statements for same size mux, it will not be difficult but when we increase the size of MUX, the implementation using 'case' statements will become cumbersome which can be built using "for-loop " easily.
+
 
 ```verilog
 module mux_generate (input i0 , input i1, input i2 , input i3 , input [1:0] sel  , output reg y);
@@ -281,34 +449,6 @@ module fa (input a , input b , input c, output co , output sum);
 endmodule
 ```
 
-```verilog
-
-```
-
-| Feature | ``if-else`` (Priority Logic) | ``case`` (Parallel Logic) |
-| --- | --- | --- |
-| Hardware mapping | Priority-encoded mux chain | Parallel mux structure |
-| Best for | Conditions with hierarchy | FSMs, opcode decoding |
-| Risk | Deep chains → timing issues | Cleaner timing, less nesting |
-| Example | Priority encoder | ALU operation selector |
-
-## 5.3 For loop and For generate constructs :
-### 5.3.1 For loop :
-* It is used inside the 'always' block.
-* It is used for evaluating expressions.
-* For loop is not used for instantiating hardware, gates.
-
-lets understand this with example "mux_generate.v": 
-
-<img width="700" height="500" alt="For_loop_1" src="https://github.com/user-attachments/assets/2d80a14c-309f-4c13-bf1f-f9801f9f6558" />
-
-<img width="700" height="500" alt="For_loop_2" src="https://github.com/user-attachments/assets/fee7a077-dfbd-41f7-a190-ddc29763f3a9" />
-
-
-
-
-we can see that the ouput waveform for RTL code functional simulation and synthesized netlist GLS are same. This is implemetation of small size mux, but we can make large size mux simply using same code except that we only need to change the input bus size and number fo times loop runs.	If we use 'case' statements for same size mux, it will not be difficult but when we increase the size of MUX, the implementation using 'case' statements will become cumbersome which can be built using "for-loop " easily.
-		  		  
 		  
 ### 5.3.2 For generate :
 * It is used outside the 'always' block.
