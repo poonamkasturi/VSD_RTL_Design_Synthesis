@@ -8,9 +8,9 @@
   * [case Statement](#CASE-Statement)
   	* D5Lab18 - complete case 
     * [Caveats with CASE statements](#Caveats-with-CASE-statements)
-	    * D5Lab18 - Incomplete case Assignment
-	    * D5Lab19 - Partial case Assignment
-	    * D5Lab20 - Overlapping case Assignment
+	    * D5Lab19 - Incomplete case Assignment
+	    * D5Lab20 - Partial case Assignment
+	    * D5Lab21 - Overlapping case Assignment
 5.2 [LOOP Statements](#LOOP-Statements)
   * [for loop Statement](#For-loop-Statement)
   * [for generate Statement](#For-generate-Statement)
@@ -328,10 +328,15 @@ Impact of Overlapping case Assignment
 - Such overlapping cases confuse the simulator, leading to **synthesis–simulation mismatch** 
 - Different simulators may show different behavior for overlapping cases, resulting in **unpredictable outputs**.
 
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR - RTL ***
+RTL Simulation Waveform Observation
+- Waveform shows a latching behaviour - **unpredictable output**.  
+
 <p></p>
-RTL Simulation - Pre Synthesis Simulation
+RTL Simulation - Pre Synthesis Simulation - "simulation - synthesis mismatch"
 <p></p>
 
+***- RTL Simulation (GLS) shows latching behaviour***
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20164909%20D5Lab4%20bad_case%20gtk.png)
 
 <p></p>
@@ -343,11 +348,11 @@ GLS - Post Synthesis Simulation
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-50-03%20bad_case%20gtk_GLS.png)
 
 <p></p>
-SYNTHESIZED SCHEMATIC - NETLIST
+SYNTHESIZED SCHEMATIC 
 <p></p>
 
-##### - From the synthesized netlist, we can see that **no latch is inferred** for the overlapping case.  
-BUT it is a bad coding style as **'simulation - synthesis mismatch'** happens.
+##### *- From the synthesized schematic, we can see that **no latch is inferred** for the overlapping case.*  
+NOTE : It is a bad coding style as **'simulation - synthesis mismatch'** happens.
   
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot_2026-10-05_13-44-16%20bad_case%20synth.png)
 
@@ -368,24 +373,15 @@ BUT it is a bad coding style as **'simulation - synthesis mismatch'** happens.
  _______________________________________________
  _______________________________________________
 
-## 5.3 For loop and For generate constructs :
-### 5.3.1 For loop :
+## 5.2 Loop Statements:
+### for loop :
 * It is used inside the 'always' block.
 * It is used for evaluating expressions.
 * For loop is not used for instantiating hardware, gates.
 
-lets understand this with example "mux_generate.v": 
+### *D5Lab22 - for Loop  - ---- mux_generate.v :  4x1 MUX* ...................... GLS NEEDED
 
-<img width="700" height="500" alt="For_loop_1" src="https://github.com/user-attachments/assets/2d80a14c-309f-4c13-bf1f-f9801f9f6558" />
-
-<img width="700" height="500" alt="For_loop_2" src="https://github.com/user-attachments/assets/fee7a077-dfbd-41f7-a190-ddc29763f3a9" />
-
-
-
-
-we can see that the ouput waveform for RTL code functional simulation and synthesized netlist GLS are same. This is implemetation of small size mux, but we can make large size mux simply using same code except that we only need to change the input bus size and number fo times loop runs.	If we use 'case' statements for same size mux, it will not be difficult but when we increase the size of MUX, the implementation using 'case' statements will become cumbersome which can be built using "for-loop " easily.
-
-
+RTL Design
 ```verilog
 module mux_generate (input i0 , input i1, input i2 , input i3 , input [1:0] sel  , output reg y);
 wire [3:0] i_int;
@@ -393,13 +389,57 @@ assign i_int = {i3,i2,i1,i0};
 integer k;
 always @ (*)
 begin
-for(k = 0; k < 4; k=k+1) begin
-	if(k == sel)
-		y = i_int[k];
-end
+	for(k = 0; k < 4; k=k+1)
+		begin
+			if(k == sel)
+			y = i_int[k];
+		end
 end
 endmodule
 ```
+
+#####  ***  UNDERSTANDING THE RTL DESIGN  ***
+
+Impact of for loop construct
+- This example demonstrates a **small-size multiplexer** implementation.  
+- To build a **larger multiplexer**, the same code structure can be reused.
+- Only the **input bus size** and the **number of loop iterations** need to be adjusted.
+- incomplete if will infer a latch - **INTENDED latch** to hold the mux output.
+- @ (*) ensures that the always block is triggered and re‑executed whenever an event occurs on any of the input signals.
+- This captures the combinational logic nature of a mux.
+- Using `case` statements for small MUXes is manageable, but as the size increases, the code becomes **cumbersome**.
+- A **`for` loop** provides a concise and scalable way
+
+#####  ***  EXAMINING THE SIMULATED BEHAVIOUR - RTL and GLS ***
+- The **RTL functional simulation** and the synthesized netlist **GLS** show **matching output waveforms**, confirming correctness.
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20173453%20D5Lab6%20mux_generate%20gtkwave.png)
+
+<p></p>
+GLS - Post Synthesis Simulation
+<p></p>
+
+![]()
+
+<p></p>
+SYNTHESIZED SCHEMATIC 
+<p></p>
+
+#### ***Confirms the inference of an INTENDED latch***
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175000%20D5Lab6%20mux_generate%20synth%20w_purge.png)
+
+
+<img width="700" height="500" alt="For_loop_1" src="https://github.com/user-attachments/assets/2d80a14c-309f-4c13-bf1f-f9801f9f6558" />
+
+<img width="700" height="500" alt="For_loop_2" src="https://github.com/user-attachments/assets/fee7a077-dfbd-41f7-a190-ddc29763f3a9" />
+
+### *D5Lab23 - for Loop  - ---- demux_generate.v :  1x8 DEMUX* ...................... GLS NEEDED
+
+RTL Design
 
 ```verilog
 module demux_generate (output o0 , output o1, output o2 , output o3, output o4, output o5, output o6 , output o7 , input [2:0] sel  , input i);
@@ -408,14 +448,39 @@ assign {o7,o6,o5,o4,o3,o2,o1,o0} = y_int;
 integer k;
 always @ (*)
 begin
-y_int = 8'b0;
-for(k = 0; k < 8; k++) begin
-	if(k == sel)
-		y_int[k] = i;
-end
+	y_int = 8'b0;
+	for(k = 0; k < 8; k++)
+	begin
+		if(k == sel)
+		   y_int[k] = i;
+	end
 end
 endmodule
 ```
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20180910%20D5Lab8%20demux_generate%20for-loop%20gtk.png)
+
+<p></p>
+GLS - Post Synthesis Simulation
+<p></p>
+
+![]()
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+![]()
+
+
+### *D5Lab24 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... GLS NEEDED
+
+RTL Design
+
 ```verilog
 module demux_case (output o0 , output o1, output o2 , output o3, output o4, output o5, output o6 , output o7 , input [2:0] sel  , input i);
 reg [7:0]y_int;
@@ -438,6 +503,41 @@ y_int = 8'b0;
 end
 endmodule
 ```
+
+<p></p>
+RTL Simulation - Pre Synthesis Simulation
+<p></p>
+
+![]()
+
+<p></p>
+GLS - Post Synthesis Simulation
+<p></p>
+
+![]()
+
+<p></p>
+SYNTHESIZED SCHEMATIC
+<p></p>
+
+![]()
+
+		  
+### for generate :
+* It is used outside the 'always' block.
+* It can not be used inside 'always' block.		  
+* It is used for instantiating hardware multiple times.
+
+lets understand this with example "rca.v": 		  
+
+<img width="700" height="500" alt="Generate_1" src="https://github.com/user-attachments/assets/1507027c-e2d3-4a82-9ca7-da05ab3d02bd" />
+
+<img width="700" height="500" alt="Generate_2" src="https://github.com/user-attachments/assets/69b8061a-893f-44d0-bbd1-458cbfb0f3ce" />
+
+<img width="700" height="500" alt="Generate_3" src="https://github.com/user-attachments/assets/c40e4d7c-6db3-4b6c-8280-2881cb53f4bf" />
+
+
+The above images shows that the ouput waveform for RTL code functional simulation and synthesized netlist GLS show similar behaviour. Here the code has implemented 8-bit ripple carry adder using "for-generate" statement. Using "for-generate" helps us to replicate the hardware easily when we need same hardware to repeat large number of times, else we have to instantiate each hardware individually which will be cumbersome unlike number of times the hardware replication is required is small.
 
 ```verilog
 module rca (input [7:0] num1 , input [7:0] num2 , output [8:0] sum);
@@ -464,25 +564,6 @@ module fa (input a , input b , input c, output co , output sum);
 	assign {co,sum}  = a + b + c ;
 endmodule
 ```
-
-		  
-### 5.3.2 For generate :
-* It is used outside the 'always' block.
-* It can not be used inside 'always' block.		  
-* It is used for instantiating hardware multiple times.
-
-lets understand this with example "rca.v": 		  
-
-<img width="700" height="500" alt="Generate_1" src="https://github.com/user-attachments/assets/1507027c-e2d3-4a82-9ca7-da05ab3d02bd" />
-
-<img width="700" height="500" alt="Generate_2" src="https://github.com/user-attachments/assets/69b8061a-893f-44d0-bbd1-458cbfb0f3ce" />
-
-<img width="700" height="500" alt="Generate_3" src="https://github.com/user-attachments/assets/c40e4d7c-6db3-4b6c-8280-2881cb53f4bf" />
-
-
-The above images shows that the ouput waveform for RTL code functional simulation and synthesized netlist GLS show similar behaviour. Here the code has implemented 8-bit ripple carry adder using "for-generate" statement. Using "for-generate" helps us to replicate the hardware easily when we need same hardware to repeat large number of times, else we have to instantiate each hardware individually which will be cumbersome unlike number of times the hardware replication is required is small.
-
-
 
 
       *******************************
