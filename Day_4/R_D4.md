@@ -3,9 +3,12 @@
 -	Topics Explored
 	- 4.1. [GLS concepts and flow using iverilog](#GLS-concepts-and-flow-using-iverilog)
 	- 4.2. [GLS setup using iverilog ](#GLS-setup-using-iverilog)
+		 - **D4Lab13** - GLS  (*ternary_operator_mux.v*)
 	- 4.3. [Synthesis-Simulation Mismatch](#Synthesis---Simulation-Mismatch)
-	   * [Missing Sensitivity list](#Missing-Sensitivity-list)
+ 	   * [Missing Sensitivity list](#Missing-Sensitivity-list)
+	        * **D4Lab14** - Missing Sensitivity List (*bad_mux.v*) 	
 	   * [Blocking and Non-blocking assignments in verilog](#Blocking-and-Non---blocking-assignments-in-verilog)
+		    * **D4Lab15** - Caveat in Blocking Statements (*blocking_caveat.v*) 
 
 ### 4.1 GLS concepts and flow using iverilog :
 
