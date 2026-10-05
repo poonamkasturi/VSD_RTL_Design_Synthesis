@@ -27,6 +27,20 @@ This repository documents the labs and learning materials from the [sky130RTLDes
 
 ---
 
+#### Topics Explored
+ - [1 Introduction to Verilog RTL design and Synthesis](#31-Introduction-to-Verilog-RTL-design-and-Synthesis)
+    - [1.1 Introduction to Design and Test Bench](#1.1-Introduction-to-Design-and-Test-Bench)
+    - [1.2 Simulation Flow of the Designs - iverilog](#1.2-Simulation-Flow-of-the-Designs---iverilog)
+    - [1.3 Synthesis FLow - yosys](#1.3-Synthesis-FLow---yosys)
+ - [2 LAB_WORK_FLOW ](#32-LAB_WORK_FLOW)
+    - [2.1 Setting Up the environment](#2.1-Setting-Up-the-environment)
+	- [2.2 Directory Structure](#2.2-Directory-Structure)
+ 	- [2.3 LAB 1 ---- GOOD MUX 2x1](#2.3-LAB-1-----GOOD-MUX-2x1)
+	    - **D1Lab1** - sim - iverilog Simulation of Multiplexer(MUX) (*good_mux.v*)
+	    - **D1Lab1** - synth - Synthesis of Multiplexer(MUX) 2x1 with yosys (*good_mux.v*)
+ - [Summary](#33-SUmmary)
+    
+
 ## 1: Introduction to Verilog RTL design and Synthesis
 
 ---
