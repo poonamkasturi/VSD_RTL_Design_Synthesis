@@ -18,3 +18,24 @@
 
 <span style="color:#FFFFFF"><code>sky130_fd_sc_hd__tt_025C_1v80.lib<code><span>
 __
+
+
+TO CHECK BAD COUNTER FOR DAY 3********************
+
+```verilog
+module bad_counter (input clk , input reset , output reg [1:0] cnt);
+wire res_int;
+
+assign res_int = (cnt == 2'b11) | reset;
+
+always @(posedge clk , posedge res_int)
+begin
+	if(res_int)
+		cnt <= 2'b00;
+	else
+		cnt <= cnt+1;
+end
+
+endmodule
+
+```
