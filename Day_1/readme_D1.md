@@ -38,7 +38,7 @@ This repository documents the labs and learning materials from the [sky130RTLDes
  	- [2.3 LAB 1 ---- GOOD MUX 2x1](#2.3-LAB-1-----GOOD-MUX-2x1)
 	    - **D1Lab1** - sim - iverilog Simulation of Multiplexer(MUX) (*good_mux.v*)
 	    - **D1Lab1** - synth - Synthesis of Multiplexer(MUX) 2x1 with yosys (*good_mux.v*)
- - [Summary](#33-SUmmary)
+ - [Summary of Commands](#33-Summary-of-Commands)
     
 
 ## 1: Introduction to Verilog RTL design and Synthesis
