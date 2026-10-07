@@ -3,12 +3,12 @@
 -	Topics Explored
 	- 4.1. [GLS concepts and flow using iverilog](#GLS-concepts-and-flow-using-iverilog)
 	- 4.2. [GLS setup using iverilog ](#GLS-setup-using-iverilog)
-		 - **D4Lab14** - GLS  (*ternary_operator_mux.v*)
+		 - **D4Lab16** - GLS  (*ternary_operator_mux.v*)
 	- 4.3. [Synthesis-Simulation Mismatch](#Synthesis---Simulation-Mismatch)
  	   * [Missing Sensitivity list](#Missing-Sensitivity-list)
-	        * **D4Lab15** - Missing Sensitivity List (*bad_mux.v*) 	
+	        * **D4Lab17** - Missing Sensitivity List (*bad_mux.v*) 	
 	   * [Blocking and Non-blocking assignments in verilog](#Blocking-and-Non---blocking-assignments-in-verilog)
-		    * **D4Lab16** - Caveat in Blocking Statements (*blocking_caveat.v*) 
+		    * **D4Lab18** - Caveat in Blocking Statements (*blocking_caveat.v*) 
 
 ### 4.1 GLS concepts and flow using iverilog :
 
@@ -54,7 +54,7 @@ It is used to inform the simulator about the **standard cell models** referenced
   - Validates both functionality and timing.  
   - Ensures that the design meets timing requirements in addition to logical correctness.  
 
-### *D4Lab14 - GLS  ternary_operator_mux.v : check similarity of RTL Simulation and GLS* -----------
+### *D4Lab16 - GLS  ternary_operator_mux.v : check similarity of RTL Simulation and GLS* -----------
 
 pwd path :  ~Desktop/VLSI_PK/Sky130RTLDesignAndSynthesisWorkshop/verilog_models
 
@@ -137,7 +137,7 @@ These mismatches can arise from
 
 ### Missing Sensitivity List : **********************
 
-### *D4Lab15 - Missing Sensitivity List *** bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
+### *D4Lab17 - Missing Sensitivity List *** bad_mux.v : Mismatch between RTL Simulation and GLS* -----------
 
 RTL Design
 
@@ -230,7 +230,7 @@ Blocking and Non-blocking statements come into picture when we are using "always
 
 **Synthesis–Simulation Mismatch: Blocking Assignments** :
 
-### *D4Lab16 - Caveat in Blocking Statements   *** blocking_caveat.v : Latch behaviour inferred* -----------
+### *D4Lab18 - Caveat in Blocking Statements   *** blocking_caveat.v : Latch behaviour inferred* -----------
 
 ```verilog
 module blocking_caveat (input a , input b , input  c, output reg d); 
