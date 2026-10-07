@@ -11,16 +11,20 @@
     - [Advanced Techniques](#advanced-techniques)
  - [3.4 Logic Optimizations with Yosys](#34-logic-optimizations-with-yosys)
     - [Combinational Logic Optimizations](#combinational-logic-optimizations)
+      - [Constant Propagation](#constant-propagation)
 	    - **D3Lab6** - Optimize to 2 i/p AND gate  (*opt_check.v*)
 	    - **D3Lab7** - Optimize to 2 i/p OR gate  (*opt_check2.v*)
 	    - **D3Lab8** - Optimize to 3 i/p AND gate  (*opt_check3.v*)
+      - [Boolean Logic Optimization](#boolean-logic-optimization)
 	    - **D3Lab9** - Optimize to 2 i/p XNOR gate  (*opt_check4.v*)
+      	- **D3Lab10** - Submodules optimized (*multiple_module_opt.v*)
+       	- **D3Lab11** - Optimized output to a constant  (*multiple_module_opt2.v*) 
     - [Sequential Logic Optimizations](#sequential-logic-optimizations)
-	    - **D3Lab10** - Optimize DFF Asynchronous reset (*dff_const1.v*)
-	    - **D3Lab11** - Optimize DFF q set to 1 (*dff_const2.v*)
-        - **D3Lab12** - Optimize DFF q set to 1 (*dff_const3.v*)
+	    - **D3Lab12** - Optimize DFF Asynchronous reset (*dff_const1.v*)
+	    - **D3Lab13** - Optimize DFF q set to 1 (*dff_const2.v*)
+        - **D3Lab14** - Optimize DFF q set to 1 (*dff_const3.v*)
 - [3.5 Sequential Optimizations for Unused Outputs](#35-sequential-optimizations-for-unused-outputs)
-	 - **D3Lab13** - Optimize  of 3 bit counter  (*counter_opt.v*)
+	 - **D3Lab15** - Optimize  of 3 bit counter  (*counter_opt.v*)
 
 
 ### 3.1 Introduction to Logic Optimization - Overview
@@ -127,6 +131,9 @@ yosys> show
 
 
 ## --- Combinational Logic Optimizations ---
+
+###  CONSTANT OPTIMIZATION
+
 ### *D3Lab6 - Optimization - opt_check.v -- 2 input AND gate* ********************
 
 ```verilog
@@ -161,6 +168,8 @@ endmodule
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20134832%20D3Lab3%203input_AND%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20135204%20D3Lab3%203input_AND%20synth.png)
 
+### BOOLEAN LOGIC OPTIMIZATION
+
 ### *D3Lab9 - Optimization - opt_check4.v -- Logic optimized to 2 input XNOR gate* ********************
 ```verilog
 module opt_check4 (input a , input b , input c , output y);
@@ -184,9 +193,89 @@ module opt_check4 (input a , input b , input c , output y);
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20140852%20D3Lab4%20XNOR%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20141157%20D3Lab4%20XNOR%20synth.png)
 
+### *D3Lab10 - Submodules optimized (multiple_module_opt.v)* ******************
+
+RTL Design
+```verilog
+module sub_module1(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+module sub_module2(input a , input b , output y);
+ assign y = a^b;
+endmodule
+
+module multiple_module_opt(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+assign y = c | (b & n1); 
+
+endmodule
+```
+Functionality:
+* output of the multiple_module_opt depends only on inputs b and c and output of sub_module1 (n1)
+* OPTIMIZATION removes all the unnecessary sub_module instantiations and nets.
+
+RTL Simulation - 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-11-49%20multiple_module_opt%20gtk.png)
+
+SYNTHESIZIED Schematic - WITHOUT Optimization
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-14-27%20multiple_module_opt%20synth_flat.png)
+
+SYNTHESIZIED Schematic - WITH Optimization  - `opt_clean -purge`
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-16-28%20multiple_module_opt%20synth_flat_purge.png)
+
+
+### *D3Lab11 - Optimized output to a constant  (multiple_module_opt2.v)* ******************
+
+RTL Design
+
+```verilog
+module sub_module(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+module multiple_module_opt2(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+sub_module U2 (.a(b), .b(c) , .y(n2));
+sub_module U3 (.a(n2), .b(d) , .y(n3));
+sub_module U4 (.a(n3), .b(n1) , .y(y));
+
+endmodule
+```
+Functionality:
+* output of sub_module instantiation U2 is not being used.
+* output y of the multiple_module_opt2 is and operation of outputs of sub_module instantiations U1 and U3
+* output n1 from U1 instantiation of the sub_module is always 0 - as input b is a constant 0
+* this leads the output y to be 0 always
+
+The above points are verified by the RTL simulation
+The synthesis result without optimization generates all the submodules and their outputs
+OPTIMIZATION - removes all the unnecessary submodules and logic making output connected to the constant '0'
+
+RTL Simulation - 
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-59-21%20multiple_module_opt2%20gtk.png)
+
+SYNTHESIZIED Schematic - WITHOUT Optimization
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-25-25%20multiple_module_opt2%20synth_flat.png)
+
+SYNTHESIZIED Schematic - WITH Optimization  - `opt_clean -purge`
+
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_20-26-29%20multiple_module_opt2%20synth_flat_purge.png)
+
+
+
 ## --- Sequential Logic Optimizations ---
 
-### *D3Lab10 - Optimization  dff_const1.v : Active High Asynchronous Reset* ******************
+### *D3Lab12 - Optimization  dff_const1.v : Active High Asynchronous Reset* ******************
 ```verilog
 module dff_const1(input clk, input reset, output reg q);
 always @(posedge clk, posedge reset)
@@ -209,7 +298,7 @@ D flip-flop with Active High Asynchronous Reset
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143021%20D3Lab5%20dff_const1%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20143525%20D3Lab5%20dff_const1%20synth.png)
 
-### *D3Lab11 - Optimization  dff_const2.v : output q always set to 1 (regardless of reset or clock)* ****************
+### *D3Lab13 - Optimization  dff_const2.v : output q always set to 1 (regardless of reset or clock)* ****************
 
 ```verilog
 module dff_const2(input clk, input reset, output reg q);
@@ -228,7 +317,7 @@ Redundant signals reset and clk removed
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
-### *D3Lab12 - Optimization  dff_const3.v : Every flop with D input tied to '0' is not a sequential constant* ****************
+### *D3Lab14 - Optimization  dff_const3.v : Every flop with D input tied to '0' is not a sequential constant* ****************
 
 ```verilog
 module dff_const3(input clk, input reset, output reg q);
@@ -272,7 +361,7 @@ the synthesized statistic report as well as the synthesized schematic obtained p
 
 ## 3.5 Sequential - Optimizations for Unused Outputs:
 
-### *D3Lab13 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
+### *D3Lab15 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
 
 ```verilog
 module counter_opt (input clk , input reset , output q);
