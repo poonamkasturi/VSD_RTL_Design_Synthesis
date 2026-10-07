@@ -3,21 +3,21 @@
 #### 🔰 TOPICS  EXPLORED    -----
 5.1 [CONDITIONAL statements](#CONDITIONAL-Statements) 
   * [if-eLse Statement](#If-Else-Statement)
-	* **D5Lab17** - if-else ---incomplete if (*incomp_if.v*)
-	* **D5Lab18** - nested if-else ---incomplete if (*incomp_if2.v*)
+	* **D5Lab19** - if-else ---incomplete if (*incomp_if.v*)
+	* **D5Lab20** - nested if-else ---incomplete if (*incomp_if2.v*)
   * [case Statement](#CASE-Statement)
-  	* **D5Lab19** - complete case (*comp_case.v*)
+  	* **D5Lab21** - complete case (*comp_case.v*)
     * [Caveats with CASE statements](#Caveats-with-CASE-statements)
-	    * **D5Lab20** - Incomplete case Assignment (*incomp_case.v*)
-	    * **D5Lab21** - Partial case Assignment  (*partial_case_assign.v*)
-	    * **D5Lab22** - Overlapping case Assignment  (*bad_case.v*)
+	    * **D5Lab22** - Incomplete case Assignment (*incomp_case.v*)
+	    * **D5Lab23** - Partial case Assignment  (*partial_case_assign.v*)
+	    * **D5Lab24** - Overlapping case Assignment  (*bad_case.v*)
 5.2 [LOOP Statements](#LOOP-Statements)
   * [for loop Statement](#For-loop-Statement)
-	  * **D5Lab23** - for Loop 4x1 MUX  (*mux_generate.v)
-	  * **D5Lab24** - for Loop 1x8 DeMUX (*demux_generate.v)
-	  * **D5Lab25** - case 1x8 DeMUX (*demux_case.v*)
+	  * **D5Lab25** - for Loop 4x1 MUX  (*mux_generate.v)
+	  * **D5Lab26** - for Loop 1x8 DeMUX (*demux_generate.v)
+	  * **D5Lab27** - case 1x8 DeMUX (*demux_case.v*)
   * [for generate Statement](#For-generate-Statement)
-	  * **D5Lab26** - RCA 8bit  (*rca.v*)
+	  * **D5Lab28** - RCA 8bit  (*rca.v*)
 
 ---
 ## 5.1 CONDITIONAL Statements ----------------------------
@@ -34,7 +34,7 @@ Variables to which output value will be assigned in both statements should be a 
 - The main reason for inferred unintended latches is **"incomplete if statements"**.
 _________________________________________
 
-### *D5Lab17 - Incomplete if statement ---- incomp_if.v : UNINTENDED LATCH Inference* ...................... 
+### *D5Lab19 - Incomplete if statement ---- incomp_if.v : UNINTENDED LATCH Inference* ...................... 
 
 RTL Design
 
@@ -78,7 +78,7 @@ SYNTHEZED SCHEMATIC :
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20163317%20D5Lab1%20incomp_if%20synth.png)
 
-### *D5Lab18 - Nested if-else - incomplete if statement ---- incomp_if2.v : UNINTENDED LATCH Inference* ...................... 
+### *D5Lab20 - Nested if-else - incomplete if statement ---- incomp_if2.v : UNINTENDED LATCH Inference* ...................... 
 
 RTL DESIGN
 
@@ -147,7 +147,7 @@ ______________________________________________________________
 | Risk | Deep chains → timing issues | Cleaner timing, less nesting |
 | Example | Priority encoder | ALU operation selector |
 
-### *D5Lab19 - case - Completely Defined ---- comp_case.v : MUX Inferred* ......................   
+### *D5Lab21 - case - Completely Defined ---- comp_case.v : MUX Inferred* ......................   
 
 ```verilog
 module comp_case (input i0 , input i1 , input i2 , input [1:0] sel, output reg y);
@@ -198,7 +198,7 @@ ___________________________________
 
 ### * *Incomplete case Assignment :*   ***************************************
 
-### *D5Lab20 - case - Incompletely Defined ---- incomp_case.v :  LATCH inferred* ......................  
+### *D5Lab22 - case - Incompletely Defined ---- incomp_case.v :  LATCH inferred* ......................  
 
 RTL Design
 
@@ -249,7 +249,7 @@ SYNTHESIZED SCHEMATIC
 
 ### * *Partial case Assignment :* **************************************
 
-### *D5Lab21 - case - Partially Defined ---- partial_case.v :  LATCH inferred* ......................  
+### *D5Lab23 - case - Partially Defined ---- partial_case.v :  LATCH inferred* ......................  
 
 RTL Design
 
@@ -304,7 +304,7 @@ SYNTHESIZED SCHEMATIC
 		  
 ### * *Overlapping case Assignment :* **************************************
 
-### *D5Lab22 - case - Overlapping ---- bad_case.v :  LATCH inferred* ......................  
+### *D5Lab24 - case - Overlapping ---- bad_case.v :  LATCH inferred* ......................  
 
 RTL Design
 
@@ -385,7 +385,7 @@ _____________________________________________________
 * It is used for evaluating expressions.
 * For loop is not used for instantiating hardware, gates.
 
-### *D5Lab23 - for Loop  - ---- mux_generate.v :  4x1 MUX* ...................... 
+### *D5Lab25 - for Loop  - ---- mux_generate.v :  4x1 MUX* ...................... 
 
 RTL Design
 ```verilog
@@ -438,7 +438,7 @@ SYNTHESIZED SCHEMATIC
 #### ***Confirms the inference of an INTENDED latch***
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-01%20175000%20D5Lab6%20mux_generate%20synth%20w_purge.png)
 
-### *D5Lab24 - for Loop  - ---- demux_generate.v :  1x8 DEMUX* ...................... 
+### *D5Lab26 - for Loop  - ---- demux_generate.v :  1x8 DEMUX* ...................... 
 
 RTL Design
 
@@ -483,7 +483,7 @@ SYNTHESIZED SCHEMATIC
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20144716%20D5Lab8%20demux_generate%201x8%20synth%20w_purge.png)
 
 
-### *D5Lab25 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... 
+### *D5Lab27 - case  - ---- demux_case.v :  1x8 DEMUX* ...................... 
 
 RTL Design
 
@@ -538,9 +538,9 @@ SYNTHESIZED SCHEMATIC
 ### for-generate :***************************************
 * It is used outside the 'always' block.
 * It can not be used inside 'always' block.		  
-* It is used for instantiating hardware multiple times.
+* It is used for **instantiating hardware** multiple times.
 
-### *D5Lab26 - for-generate  - ---- rca.v :  8 bit Ripple Carry Adder* ...................... GLS NEEDED
+### *D5Lab28 - for-generate  - ---- rca.v :  8 bit Ripple Carry Adder* ...................... GLS NEEDED
 
 RTL Design
 
@@ -628,7 +628,7 @@ SYNTHESIZED SCHEMATIC
 
 
 
-Commands used 
+### Commands used 
 ```
 $ yosys
 yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
