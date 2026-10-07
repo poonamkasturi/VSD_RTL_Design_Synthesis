@@ -618,7 +618,7 @@ GLS - Post Synthesis Simulation
 SYNTHESIZED SCHEMATIC
 <p></p>
 
-***RCA - schematic with instantiated blocks of fa*** ..............................................
+***RCA - schematic with multiple instances of hardware blocks of fa generated*** ..............................................
 
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_5/Assets_D5/Screenshot%202026-10-02%20152427%20D5Lab9%20rca%20synth_rca.png)
 
