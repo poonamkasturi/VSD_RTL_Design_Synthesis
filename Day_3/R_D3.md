@@ -11,15 +11,18 @@
     - [Advanced Techniques](#advanced-techniques)
  - [3.4 Logic Optimizations with Yosys](#34-logic-optimizations-with-yosys)
     - [Combinational Logic Optimizations](#combinational-logic-optimizations)
-	    - **D3Lab6** - Optimize 2 i/p AND gate  (*opt_check.v*)
-	    - **D3Lab7** - Optimize 2 i/p OR gate  (*opt_check2.v*)
-	    - **D3Lab8** - Optimize 3 i/p AND gate  (*opt_check3.v*)
-	    - **D3Lab9** - Optimize 2 i/p XNOR gate  (*opt_check4.v*)
+	    - **D3Lab6** - Optimize to 2 i/p AND gate  (*opt_check.v*)
+	    - **D3Lab7** - Optimize to 2 i/p OR gate  (*opt_check2.v*)
+	    - **D3Lab8** - Optimize to 3 i/p AND gate  (*opt_check3.v*)
+	    - **D3Lab9** - Optimize to 2 i/p XNOR gate  (*opt_check4.v*)
     - [Sequential Logic Optimizations](#sequential-logic-optimizations)
 	    - **D3Lab10** - Optimize DFF Asynchronous reset (*dff_const1.v*)
 	    - **D3Lab11** - Optimize DFF q set to 1 (*dff_const2.v*)
+        - **D3Lab12** - Optimize DFF q set to 1 (*dff_const3.v*)
+        - **D3Lab13** - Optimize DFF q set to 1 (*dff_const4.v*)
+        - **D3Lab14** - Optimize DFF q set to 1 (*dff_const5.v*)
  - [3.5 Sequential Optimizations for Unused Outputs](#35-sequential-optimizations-for-unused-outputs)
-	 - **D3Lab12** - Optimize  of 3 bit counter  (*counter_opt.v*)
+	 - **D3Lab15** - Optimize  of 3 bit counter  (*counter_opt.v*)
 
 
 ### 3.1 Introduction to Logic Optimization - Overview
@@ -227,10 +230,51 @@ Redundant signals reset and clk removed
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144526%20D3Lab6%20dff_const2%20gtkwave.png)
 ![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot%202026-10-01%20144938%20%20D3Lab6%20dff_const2%20synth.png)
 
+### *D3Lab12 - Optimization  dff_const3.v : Every flop with D input tied to '0' is not a sequential constant* ****************
+
+```verilog
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+### Detailed Observation from Simulation waveforms
+
+* Output q goes to 0 for one clock pulse after reset goes to 0
+* Thus, constant 1 connected to the D FF input of q1 does not propagates a constant to q output 
+
+if a constant connected to the input of a D Flop does not makes its Q output a constant value ...then that flop or logic can not be optimized. 
+The Flop needs to be retained
+
+the synthesized statistic report as well as the synthesized schematic obtained post optimization confirm the observation.
+
+**NOTE** :
+* A constant connected to the input of a flop does not mean that we can always optimize its output.
+* Every flop with D input tied to '0' or '1' is not a sequential constant.
+* For flop to become sequential constant , the Q output pin should always take a constant value.
+	
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_19-11-18%20dff_const3%20gtk.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_19-12-25%20dff_const3%20synth_stat.png)
+![](https://github.com/poonamkasturi/VSD_RTL_Design_Synthesis/blob/main/Day_3/Assets_D3/Screenshot_2026-10-06_19-13-53%20dff_const3%20synth.png)
+
 
 ## 3.5 Sequential - Optimizations for Unused Outputs:
 
-### *D3Lab12 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
+### *D3Lab13 - Optimization  counter_opt.v : Optimization of a 3-Bit Counter* **************  
 
 ```verilog
 module counter_opt (input clk , input reset , output q);
@@ -274,7 +318,6 @@ At first glance, the RTL code appears to describe a **3-bit counter**, so one wo
 Optimization ensures that:
 - **Redundant logic** is eliminated.  
 - **Functionality** of the design is maintained
-
 
 ---
 
