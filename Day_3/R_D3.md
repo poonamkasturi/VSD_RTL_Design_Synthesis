@@ -19,10 +19,8 @@
 	    - **D3Lab10** - Optimize DFF Asynchronous reset (*dff_const1.v*)
 	    - **D3Lab11** - Optimize DFF q set to 1 (*dff_const2.v*)
         - **D3Lab12** - Optimize DFF q set to 1 (*dff_const3.v*)
-        - **D3Lab13** - Optimize DFF q set to 1 (*dff_const4.v*)
-        - **D3Lab14** - Optimize DFF q set to 1 (*dff_const5.v*)
- - [3.5 Sequential Optimizations for Unused Outputs](#35-sequential-optimizations-for-unused-outputs)
-	 - **D3Lab15** - Optimize  of 3 bit counter  (*counter_opt.v*)
+- [3.5 Sequential Optimizations for Unused Outputs](#35-sequential-optimizations-for-unused-outputs)
+	 - **D3Lab13** - Optimize  of 3 bit counter  (*counter_opt.v*)
 
 
 ### 3.1 Introduction to Logic Optimization - Overview
